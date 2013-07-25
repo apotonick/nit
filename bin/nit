@@ -4,10 +4,7 @@ require "thor"
 class Nit < Thor
   desc "branch", "Invokes git branch"
   def branch
-  	output = `git branch`
-    branch_line = output.match(/(\*.+)/)[0  ]
-
-    puts branch_line
+    puts "* #{current_branch}"
   end
 
   desc "status", "bla"
@@ -41,7 +38,22 @@ class Nit < Thor
     system "git commit #{commit_files.join(" ")}"
   end
 
+  desc "pull", "pull from current branch at origin"
+  def pull
+    `git pull origin #{current_branch}`
+  end
+
+  desc "push", "push to current branch at origin"
+  def push
+    `git push origin #{current_branch}`
+  end
+
 private
+  def current_branch
+    output = `git branch`
+    branch = output.match(/\* (.+)/)[1].strip
+  end
+
   def find_files(lines) # TODO: move to Lines.
     lines.collect do |ln|
       if matches = ln.match(/modified:(.+)/)

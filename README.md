@@ -16,7 +16,7 @@ Or install it yourself as:
 
     $ gem install nit
 
-## Usage
+## Status & Commit
 
 ```shell
 nit status
@@ -45,3 +45,16 @@ Allows commiting using shortcut indexes.
 
 ```
 
+## Pull & Push
+
+```shell
+nit pull
+```
+
+Will figure out the current branch and run
+
+```shell
+git pull origin <current branch>
+```
+
+The same works for `nit push`.
