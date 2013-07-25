@@ -38,11 +38,48 @@ no changes added to commit (use "git add" and/or "git commit -a")
 ```
 
 ```
-nit commit 1 2
+nit commit 0 1
 ```
 
-Allows commiting using shortcut indexes.
+Which will run
 
+```
+git add Rakefile test/hash_test.rb
+git commit
+```
+
+## Add
+
+Adding with nit becomes obsolete.
+
+```
+$ nit status
+
+# On branch 1-7
+# Changes not staged for commit:
+#   (use "git add <file>..." to update what will be committed)
+#   (use "git checkout -- <file>..." to discard changes in working directory)
+#
+#	modified: [0]    test/hash_test.rb
+#
+# Untracked files:
+#   (use "git add <file>..." to include in what will be committed)
+#
+#	 [1] test/xml_test.rb
+no changes added to commit (use "git add" and/or "git commit -a")
+```
+
+Now, running
+
+```
+nit commit 0 1
+```
+
+will add and commit for you.
+
+```
+git add test/hash_test.rb test/xml_test.rb
+git commit
 ```
 
 ## Pull & Push

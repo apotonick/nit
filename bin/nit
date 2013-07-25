@@ -15,8 +15,13 @@ class Nit < Thor
     buffer  = []
     output.split("\n").each do |ln|
       if matches = ln.match(/modified:(.+)/)
+
         files << file = matches[1].strip
         ln.sub!("#\tmodified:", "#\tmodified: [#{files.index(file)}] ")
+
+      elsif matches = ln.match(/#\t(\w.+)/)
+        files << file = matches[1].strip
+        ln.sub!("#\t", "#\t [#{files.index(file)}] ")
       end
 
       buffer << ln
@@ -35,7 +40,7 @@ class Nit < Thor
       files[i.to_i]
     end
 
-    system "git commit #{commit_files.join(" ")}"
+    system "git add #{commit_files.join(" ")} && git commit"
   end
 
   desc "pull", "pull from current branch at origin"
@@ -57,7 +62,13 @@ private
   def find_files(lines) # TODO: move to Lines.
     lines.collect do |ln|
       if matches = ln.match(/modified:(.+)/)
-        matches[1].strip
+
+        file = matches[1].strip
+
+      elsif matches = ln.match(/#\t(\w.+)/)
+
+        file = matches[1].strip
+
       else
         nil
       end
