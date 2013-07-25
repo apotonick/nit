@@ -1,0 +1,56 @@
+#!/usr/bin/env ruby
+require "thor"
+
+class Nit < Thor
+  desc "branch", "Invokes git branch"
+  def branch
+  	output = `git branch`
+    branch_line = output.match(/(\*.+)/)[0  ]
+
+    puts branch_line
+  end
+
+  desc "status", "bla"
+  def status
+    output = `git status`
+
+    files = []
+    buffer  = []
+    output.split("\n").each do |ln|
+      if matches = ln.match(/modified:(.+)/)
+        files << file = matches[1].strip
+        ln.sub!("#\tmodified:", "#\tmodified: [#{files.index(file)}] ")
+      end
+
+      buffer << ln
+    end
+
+
+    puts buffer.join("\n")
+  end
+
+  desc "commit", "blubb"
+  def commit(*args)
+
+    files = find_files(`git status`.split("\n")) # FIXME: redundant.
+
+    commit_files = args.collect do |i|
+      files[i.to_i]
+    end
+
+    system "git commit #{commit_files.join(" ")}"
+  end
+
+private
+  def find_files(lines) # TODO: move to Lines.
+    lines.collect do |ln|
+      if matches = ln.match(/modified:(.+)/)
+        matches[1].strip
+      else
+        nil
+      end
+    end.compact
+  end
+end
+
+Nit.start
