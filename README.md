@@ -18,12 +18,30 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+```shell
+nit status
+```
 
-## Contributing
+Shows file indexes.
 
-1. Fork it
-2. Create your feature branch (`git checkout -b my-new-feature`)
-3. Commit your changes (`git commit -am 'Add some feature'`)
-4. Push to the branch (`git push origin my-new-feature`)
-5. Create new Pull Request
+```shell
+# On branch 1-7
+# Changes not staged for commit:
+#   (use "git add <file>..." to update what will be committed)
+#   (use "git checkout -- <file>..." to discard changes in working directory)
+#
+#	modified: [0]    Rakefile
+#	modified: [1]    test/hash_test.rb
+#	modified: [2]    test/private/prototype_test.rb
+#
+no changes added to commit (use "git add" and/or "git commit -a")
+```
+
+```
+nit commit 1 2
+```
+
+Allows commiting using shortcut indexes.
+
+```
+
