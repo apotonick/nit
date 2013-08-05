@@ -1,11 +1,13 @@
 #!/usr/bin/env ruby
 require "thor"
+require "/home/nick/projects/nit/lib/nit/lines"
 
 # TODO:
 # * diff 1 2
 # * diff workflow: going through changed files, adding them while reading!
 # * nit => nit status with bold branch!
 # * temporarily ignore files [ignored files: 12]
+# * nit unstage => git reset HEAD
 
 module Nit
   class App < Thor
@@ -18,30 +20,22 @@ module Nit
     def status
       output = `git status`
 
-      files = []
-      buffer  = []
-      output.split("\n").each do |ln|
-        if matches = ln.match(/modified:(.+)/)
+      screen = Lines.new(output)
 
-          files << file = matches[1].strip
-          ln.sub!("#\tmodified:", "#\tmodified: [#{files.index(file)}] ")
-
-        elsif matches = ln.match(/#\t(\w.+)/)
-          files << file = matches[1].strip
-          ln.sub!("#\t", "#\t [#{files.index(file)}] ")
+      screen.files do |ln, i| # TODO: should we have redundant file patterns here? it is better readable, thou.
+        if ln.match(screen.file_patterns[:modified])
+          ln.sub!("#\tmodified:", "#\tmodified: [#{i}] ")
+        elsif ln.match(screen.file_patterns[:new])
+          ln.sub!("#\t", "#\t [#{i}] ")
         end
-
-        buffer << ln
       end
 
-
-      puts buffer.join("\n")
+      puts screen.to_s
     end
 
     desc "commit", "blubb"
     def commit(*args)
-
-      files = find_files(`git status`.split("\n")) # FIXME: redundant.
+      files = Lines.new(`git status`).files
 
       commit_files = args.collect do |i|
         files[i.to_i]
@@ -64,22 +58,6 @@ module Nit
     def current_branch
       output = `git branch`
       branch = output.match(/\* (.+)/)[1].strip
-    end
-
-    def find_files(lines) # TODO: move to Lines.
-      lines.collect do |ln|
-        if matches = ln.match(/modified:(.+)/)
-
-          file = matches[1].strip
-
-        elsif matches = ln.match(/#\t(\w.+)/)
-
-          file = matches[1].strip
-
-        else
-          nil
-        end
-      end.compact
     end
   end
 end
