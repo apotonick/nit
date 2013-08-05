@@ -23,9 +23,9 @@ module Nit
       files = []
 
       find do |ln, pat, matches|
-        files << name = matches[1].strip
-        # this is for rendering new screen only, don't like it.
-        yield ln, files.index(name) if block_given? # DISCUSS: pass File object which knows index, line, etc?
+        files << file = File.new(matches[1].strip, ln, files.size)
+
+        yield file if block_given?
       end
 
       files
@@ -41,6 +41,18 @@ module Nit
         modified: /modified:(.+)/,
         new: /#\t(.+)/
       }
+    end
+  end
+
+  class File
+    def initialize(path, line, i)
+      @path, @line, @i = path, line, i
+    end
+
+    attr_reader :path, :line, :i
+
+    def to_s
+      path
     end
   end
 end

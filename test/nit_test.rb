@@ -51,7 +51,7 @@ EOF
 
   describe "#files" do
     it do
-      Nit::Lines.new(output).files.must_equal([
+      Nit::Lines.new(output).files.map(&:to_s).must_equal([
         "on_stage.rb",
         "staged.rb",
         "brandnew.rb",
@@ -60,10 +60,12 @@ EOF
     end
   end
 
-  #       test status with ../files
-
   describe "#to_s" do
     let (:output) { "1\n2" }
     it { Nit::Lines.new(output).to_s.must_equal(output) }
   end
+end
+
+class NitFileTest < MiniTest::Spec
+  it { Nit::File.new("new.rb", "", 1).to_s.must_equal "new.rb" }
 end

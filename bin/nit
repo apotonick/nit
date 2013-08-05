@@ -22,11 +22,12 @@ module Nit
 
       screen = Lines.new(output)
 
-      screen.files do |ln, i| # TODO: should we have redundant file patterns here? it is better readable, thou.
+      screen.files do |file| # TODO: should we have redundant file patterns here? it is better readable, thou.
+        ln = file.line
         if ln.match(screen.file_patterns[:modified])
-          ln.sub!("#\tmodified:", "#\tmodified: [#{i}] ")
+          ln.sub!("#\tmodified:", "#\tmodified: [#{file.i}] ")
         elsif ln.match(screen.file_patterns[:new])
-          ln.sub!("#\t", "#\t [#{i}] ")
+          ln.sub!("#\t", "#\t [#{file.i}] ")
         end
       end
 
