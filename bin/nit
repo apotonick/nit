@@ -1,79 +1,87 @@
 #!/usr/bin/env ruby
 require "thor"
 
-class Nit < Thor
-  desc "branch", "Invokes git branch"
-  def branch
-    puts "* #{current_branch}"
-  end
+# TODO:
+# * diff 1 2
+# * diff workflow: going through changed files, adding them while reading!
+# * nit => nit status with bold branch!
+# * temporarily ignore files [ignored files: 12]
 
-  desc "status", "bla"
-  def status
-    output = `git status`
-
-    files = []
-    buffer  = []
-    output.split("\n").each do |ln|
-      if matches = ln.match(/modified:(.+)/)
-
-        files << file = matches[1].strip
-        ln.sub!("#\tmodified:", "#\tmodified: [#{files.index(file)}] ")
-
-      elsif matches = ln.match(/#\t(\w.+)/)
-        files << file = matches[1].strip
-        ln.sub!("#\t", "#\t [#{files.index(file)}] ")
-      end
-
-      buffer << ln
+module Nit
+  class App < Thor
+    desc "branch", "Invokes git branch"
+    def branch
+      puts "* #{current_branch}"
     end
 
+    desc "status", "bla"
+    def status
+      output = `git status`
 
-    puts buffer.join("\n")
-  end
+      files = []
+      buffer  = []
+      output.split("\n").each do |ln|
+        if matches = ln.match(/modified:(.+)/)
 
-  desc "commit", "blubb"
-  def commit(*args)
+          files << file = matches[1].strip
+          ln.sub!("#\tmodified:", "#\tmodified: [#{files.index(file)}] ")
 
-    files = find_files(`git status`.split("\n")) # FIXME: redundant.
+        elsif matches = ln.match(/#\t(\w.+)/)
+          files << file = matches[1].strip
+          ln.sub!("#\t", "#\t [#{files.index(file)}] ")
+        end
 
-    commit_files = args.collect do |i|
-      files[i.to_i]
+        buffer << ln
+      end
+
+
+      puts buffer.join("\n")
     end
 
-    system "git add #{commit_files.join(" ")} && git commit"
-  end
+    desc "commit", "blubb"
+    def commit(*args)
 
-  desc "pull", "pull from current branch at origin"
-  def pull
-    `git pull origin #{current_branch}`
-  end
+      files = find_files(`git status`.split("\n")) # FIXME: redundant.
 
-  desc "push", "push to current branch at origin"
-  def push
-    `git push origin #{current_branch}`
-  end
-
-private
-  def current_branch
-    output = `git branch`
-    branch = output.match(/\* (.+)/)[1].strip
-  end
-
-  def find_files(lines) # TODO: move to Lines.
-    lines.collect do |ln|
-      if matches = ln.match(/modified:(.+)/)
-
-        file = matches[1].strip
-
-      elsif matches = ln.match(/#\t(\w.+)/)
-
-        file = matches[1].strip
-
-      else
-        nil
+      commit_files = args.collect do |i|
+        files[i.to_i]
       end
-    end.compact
+
+      system "git add #{commit_files.join(" ")} && git commit"
+    end
+
+    desc "pull", "pull from current branch at origin"
+    def pull
+      `git pull origin #{current_branch}`
+    end
+
+    desc "push", "push to current branch at origin"
+    def push
+      `git push origin #{current_branch}`
+    end
+
+  private
+    def current_branch
+      output = `git branch`
+      branch = output.match(/\* (.+)/)[1].strip
+    end
+
+    def find_files(lines) # TODO: move to Lines.
+      lines.collect do |ln|
+        if matches = ln.match(/modified:(.+)/)
+
+          file = matches[1].strip
+
+        elsif matches = ln.match(/#\t(\w.+)/)
+
+          file = matches[1].strip
+
+        else
+          nil
+        end
+      end.compact
+    end
   end
 end
 
-Nit.start
+Nit::App.start
