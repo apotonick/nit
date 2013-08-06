@@ -2,15 +2,24 @@
 require "thor"
 require "/home/nick/projects/nit/lib/nit/lines"
 require "/home/nick/projects/nit/lib/nit/status"
+require "/home/nick/projects/nit/lib/nit/config"
+
 
 # TODO:
 # * diff 1 2
 # * diff workflow: going through changed files, adding them while reading!
 # * temporarily ignore files [ignored files: 12]
 # * nit unstage => git reset HEAD
+# * remove branch command
 
 module Nit
   class App < Thor
+    include Actions
+
+    def config
+      @config ||= Config.new # TODO: eventually pass path.
+    end
+
     default_command(:status)
 
     desc "branch", "Invokes git branch"
@@ -20,7 +29,7 @@ module Nit
 
     desc "status", "bla"
     def status
-      puts Status.new.call
+      puts Status.new(config).call
     end
 
     desc "commit", "blubb"

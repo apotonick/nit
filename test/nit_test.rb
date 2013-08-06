@@ -23,6 +23,7 @@ class NitTest < MiniTest::Spec
 end
 
 class StatusTest < MiniTest::Spec
+  let (:config) { Nit::Config.new }
   let (:output) do <<EOF
 # On branch master
 # Changes not staged for commit:
@@ -42,9 +43,32 @@ no changes added to commit (use "git add" and/or "git commit -a")
 EOF
   end
 
-  it "allows ignoring files" do
+  describe "ignoring" do
+    after do
+      config.rm_config
+    end
 
+    it "doesn't show ignored files count per default" do
+      Nit::Status.new(config).call(output).wont_match(/Ignored files:/)
+    end
+
+    it "shows ignored files when ignoring" do
+      config.add_ignored_files("new.rb", "brandnew.rb", "staged.rb") # TODO: make this more generic.
+
+      console = Nit::Status.new(config).call(output)
+      console.must_match(/Ignored files: 3/)
+      console.wont_match(" staged.rb")
+      console.wont_match(" new.rb")
+      console.wont_match(" brandnew.rb")
+      console.must_match(" ../lib/new.rb")
+    end
+
+    it "also ignores files when commiting" do
+
+    end
   end
+
+
 end
 
 class LinesTest < StatusTest
