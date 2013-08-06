@@ -56,11 +56,12 @@ EOF
       config.add_ignored_files("new.rb", "brandnew.rb", "staged.rb") # TODO: make this more generic.
 
       console = Nit::Status.new(config).call(output)
-      console.must_match(/Ignored files: 3/)
-      console.wont_match(" staged.rb")
-      console.wont_match(" new.rb")
-      console.wont_match(" brandnew.rb")
-      console.must_match(" ../lib/new.rb")
+      console.must_match "[1] ../lib/new.rb" # this file has a new index since all other ignored.
+      console.must_match "Ignored files: 3"
+      console.wont_match " staged.rb"
+      console.wont_match " new.rb"
+      console.wont_match " brandnew.rb"
+      console.must_match " ../lib/new.rb"
     end
 
     it "also ignores files when commiting" do
