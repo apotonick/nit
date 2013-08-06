@@ -16,7 +16,8 @@ module Nit
 
     def add_ignored_files(*files)
       unless exist?
-        create_file filename, Psych.dump({"ignored_files" => []})
+        puts "CREAAAAAT: #{Psych.dump({"ignored_files" => files})}"
+        return create_file filename, Psych.dump({"ignored_files" => files})
       end
 
       hash = Psych.load_file(filename)
@@ -24,6 +25,8 @@ module Nit
 
       #hash[:ignored_files] ||= []
       hash["ignored_files"] += files
+
+      puts "about to dump: #{hash.inspect}"
 
       #create_file filename, Psych.dump(hash)
       ::File.open(filename, "w") { |f| f.write(Psych.dump(hash))  }

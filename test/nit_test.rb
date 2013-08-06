@@ -77,8 +77,22 @@ EOF
       commit.call(output, [1]).must_equal "git add ../lib/new.rb && git commit"
     end
   end
+end
 
+class IgnoreTest < StatusTest
+  let (:config) { Nit::Config.new }
 
+  after do
+    config.rm_config
+  end
+
+  it "what" do
+    config.ignored_files.must_equal []
+
+    Nit::Ignore.new(config).call(output, [0,1])
+
+    config.ignored_files.must_equal ["on_stage.rb", "staged.rb"]
+  end
 end
 
 class LinesTest < StatusTest

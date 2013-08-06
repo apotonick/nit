@@ -51,13 +51,13 @@ module Nit
 
   class File
     def initialize(path, line)
-      @path, @line, @i = path, line
+      @path, @line = path, line
     end
 
     attr_reader :path, :line
 
     def to_s
-      path
+      path.to_s
     end
   end
 
