@@ -1,6 +1,7 @@
 #!/usr/bin/env ruby
 require "thor"
 require "/home/nick/projects/nit/lib/nit/lines"
+require "/home/nick/projects/nit/lib/nit/status"
 
 # TODO:
 # * diff 1 2
@@ -11,6 +12,8 @@ require "/home/nick/projects/nit/lib/nit/lines"
 
 module Nit
   class App < Thor
+    default_command(:status)
+
     desc "branch", "Invokes git branch"
     def branch
       puts "* #{current_branch}"
@@ -18,20 +21,7 @@ module Nit
 
     desc "status", "bla"
     def status
-      output = `git status`
-
-      screen = Lines.new(output)
-
-      screen.files do |file| # TODO: should we have redundant file patterns here? it is better readable, thou.
-        ln = file.line
-        if ln.match(screen.file_patterns[:modified])
-          ln.sub!("#\tmodified:", "#\tmodified: [#{file.i}] ")
-        elsif ln.match(screen.file_patterns[:new])
-          ln.sub!("#\t", "#\t [#{file.i}] ")
-        end
-      end
-
-      puts screen.to_s
+      puts Status.new.call
     end
 
     desc "commit", "blubb"

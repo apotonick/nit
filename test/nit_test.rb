@@ -1,7 +1,7 @@
 require 'test_helper'
 
 class NitTest < MiniTest::Spec
-  describe "status" do
+  describe "nit status" do
     it "numbers files to stage" do
       output = nit("status")
       output.must_match "modified: [0]    on_stage.rb"
@@ -11,12 +11,18 @@ class NitTest < MiniTest::Spec
     end
   end
 
+  describe "nit" do
+    it "delegates to status" do
+      output = nit("").must_match "modified: [0]    on_stage.rb"
+    end
+  end
+
   def nit(args)
     `cd test/dummies/status_1 && ../../../bin/nit #{args}`
   end
 end
 
-class LinesTest < MiniTest::Spec
+class StatusTest < MiniTest::Spec
   let (:output) do <<EOF
 # On branch master
 # Changes not staged for commit:
@@ -36,19 +42,12 @@ no changes added to commit (use "git add" and/or "git commit -a")
 EOF
   end
 
-  # describe "#find" do
-  #   it do
-  #     files = []
+  it "allows ignoring files" do
 
-  #     Nit::Lines.new(output).find do |ln, pat, matches|
-  #       files << matches[1].strip
-  #     end
+  end
+end
 
-  #     files.must_equal(["on_stage.rb", "staged.rb", "brandnew.rb",
-  #       "new.rb", "../lib/new.rb"])
-  #   end
-  # end
-
+class LinesTest < StatusTest
   describe "#files" do
     it do
       Nit::Lines.new(output).files.map(&:to_s).must_equal([
