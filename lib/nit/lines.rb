@@ -17,9 +17,9 @@ module Nit
 
       for type, pattern in file_patterns
         find(pattern) do |ln, matches|
-          files << file = File.new(matches[1].strip, ln, files.size)
+          files << file = File.new(matches[1].strip, ln)
 
-          yield file if block_given?
+          yield file if block_given? # TODO: do we need that?
         end
       end
 
@@ -52,14 +52,17 @@ module Nit
   end
 
   class File
-    def initialize(path, line, i)
-      @path, @line, @i = path, line, i
+    def initialize(path, line)
+      @path, @line, @i = path, line
     end
 
-    attr_reader :path, :line, :i
+    attr_reader :path, :line
 
     def to_s
       path
     end
+  end
+
+  class Files < Array
   end
 end

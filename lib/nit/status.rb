@@ -7,17 +7,20 @@ module Nit
     def call(original=`git status`)
       screen = Lines.new(original)
 
-      ignore_files(screen)
+      files, ignored  = files_for(screen) # move to somewhere else!
 
-      screen.files do |file| # TODO: should we have redundant file patterns here? it is better readable, thou.
+      files.each_with_index do |file, i| # TODO: should we have redundant file patterns here? it is better readable, thou.
         ln = file.line
+
         if ln.match(screen.file_patterns[:modified])
-          ln.sub!("#\tmodified:", "#\tmodified: [#{file.i}] ")
+          ln.sub!("#\tmodified:", "#\tmodified: [#{i}] ")
         elsif ln.match(screen.file_patterns[:new])
-          ln.sub!("#\t", "#\t [#{file.i}] ")
+          ln.sub!("#\t", "#\t [#{i}] ")
         end
       end
 
+      # TODO: should be pluggable:
+      ignore_files(screen, ignored)
       bold_branch(screen)
 
       screen.to_s
@@ -31,22 +34,20 @@ module Nit
       end
     end
 
-    def ignore_files(lines)
-      return unless ignored_files.size > 0
+    def files_for(screen)
+      files = screen.files
 
-      #puts "officially ignored: #{ignored_files.inspect}"
+      ignored = [] # TODO: that must be implemented by Files.
+      files.delete_if { |f| ignored_files.include?(f.path) ? ignored << f : false }
 
-      pattern = /(\t|\s)(#{ignored_files.join("|")})$/
+      [files, ignored]
+    end
 
-      deleted = []
+    def ignore_files(screen, ignored)
+      return unless ignored.size > 0
 
-      lines.find(pattern) do |ln, matches|
-        deleted << ln
-      end
-
-      deleted.each(&:delete)
-
-      lines << "#   Ignored files: #{ignored_files.size}"
+      ignored.each { |f| f.line.delete  }
+      screen << "#   Ignored files: #{ignored.size}"
     end
 
     def ignored_files
