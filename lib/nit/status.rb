@@ -4,11 +4,16 @@ module Nit
       @config = config
     end
 
-    def call(original=`git status`)
+    def call(original=`git status`, *args)
       screen = Lines.new(original)
 
       files, ignored  = files_for(screen) # move to somewhere else!
 
+      process(screen, files, ignored, *args)
+    end
+
+  private
+    def process(screen, files, ignored)
       files.each_with_index do |file, i| # TODO: should we have redundant file patterns here? it is better readable, thou.
         ln = file.line
 
@@ -26,7 +31,6 @@ module Nit
       screen.to_s
     end
 
-  private
     def bold_branch(lines)
       lines.find(/# On branch (.+)/) do |ln, matches|
         line = "# On branch \033[1m#{matches[1]}\033[22m"

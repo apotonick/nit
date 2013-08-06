@@ -1,10 +1,6 @@
 module Nit
   class Commit < Status
-    def call(original=`git status`, indexes) # TODO: use from Status.
-      screen = Lines.new(original)
-
-      files, ignored  = files_for(screen) # move to somewhere else!
-
+    def process(screen, files, ignored, indexes) # TODO: use from Status.
       commit_files = indexes.collect do |i|
         files[i.to_i]
       end
