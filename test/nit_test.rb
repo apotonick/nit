@@ -65,7 +65,16 @@ EOF
     end
 
     it "also ignores files when commiting" do
+      config.add_ignored_files("new.rb", "brandnew.rb", "staged.rb") # TODO: make this more generic.
 
+      commit = Nit::Commit.new(config)
+      commit.instance_eval do
+        def system(command)
+          command
+        end
+      end
+
+      commit.call(output, [1]).must_equal "git add ../lib/new.rb && git commit"
     end
   end
 
@@ -100,5 +109,5 @@ class LinesTest < StatusTest
 end
 
 class NitFileTest < MiniTest::Spec
-  it { Nit::File.new("new.rb", "", 1).to_s.must_equal "new.rb" }
+  it { Nit::File.new("new.rb", "<line 1>").to_s.must_equal "new.rb" }
 end

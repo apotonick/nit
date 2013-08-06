@@ -2,6 +2,7 @@
 require "thor"
 require "/home/nick/projects/nit/lib/nit/lines"
 require "/home/nick/projects/nit/lib/nit/status"
+require "/home/nick/projects/nit/lib/nit/commit"
 require "/home/nick/projects/nit/lib/nit/config"
 
 
@@ -34,13 +35,7 @@ module Nit
 
     desc "commit", "blubb"
     def commit(*args)
-      files = Lines.new(`git status`).files
-
-      commit_files = args.collect do |i|
-        files[i.to_i]
-      end
-
-      system "git add #{commit_files.join(" ")} && git commit"
+      puts Commit.new(config).call(`git status`, args)
     end
 
     desc "pull", "pull from current branch at origin"
