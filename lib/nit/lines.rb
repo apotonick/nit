@@ -18,8 +18,6 @@ module Nit
       for type, pattern in file_patterns
         find(pattern) do |ln, matches|
           files << file = File.new(matches[1].strip, ln)
-
-          yield file if block_given? # TODO: do we need that?
         end
       end
 
