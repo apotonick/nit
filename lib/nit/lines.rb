@@ -4,25 +4,25 @@ module Nit
       super(text.split("\n"))
     end
 
-    def find(patterns)
+    def find(pattern)
       each do |ln|
-        patterns.find do |typ, pat|
-          if matches = ln.match(pat)
-            yield ln, pat, matches
-            true
-          end
-        end
+        next unless matches = ln.match(pattern)
+
+        yield ln, matches
       end
     end
 
     def files
       files = []
 
-      find(file_patterns) do |ln, pat, matches|
-        files << file = File.new(matches[1].strip, ln, files.size)
+      for type, pattern in file_patterns
+        find(pattern) do |ln, matches|
+          files << file = File.new(matches[1].strip, ln, files.size)
 
-        yield file if block_given?
+          yield file if block_given?
+        end
       end
+
 
       files
     end
@@ -34,8 +34,8 @@ module Nit
   #private
     def file_patterns
       {
-        modified: /modified:(.+)/,
-        new: /#\t(.+)/
+        modified: /#\tmodified:(.+)/,
+        new: /#\t([^modified:].+)/
       }
     end
   end

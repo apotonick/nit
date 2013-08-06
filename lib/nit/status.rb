@@ -2,7 +2,6 @@ module Nit
   class Status
     def call
       output = `git status`
-      output << "\033[1mbold\033[22m"
 
       screen = Lines.new(output)
 
@@ -15,9 +14,17 @@ module Nit
         end
       end
 
-
+      bold_branch(screen)
 
       screen.to_s
+    end
+
+  private
+    def bold_branch(lines)
+      lines.find(/# On branch (.+)/) do |ln, matches|
+        line = "# On branch \033[1m#{matches[1]}\033[22m"
+        ln.replace(line)
+      end
     end
   end
 end
