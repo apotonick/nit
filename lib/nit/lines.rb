@@ -4,13 +4,9 @@ module Nit
       super(text.split("\n"))
     end
 
-    def process
-
-    end
-
-    def find
+    def find(patterns)
       each do |ln|
-        file_patterns.find do |typ, pat|
+        patterns.find do |typ, pat|
           if matches = ln.match(pat)
             yield ln, pat, matches
             true
@@ -22,7 +18,7 @@ module Nit
     def files
       files = []
 
-      find do |ln, pat, matches|
+      find(file_patterns) do |ln, pat, matches|
         files << file = File.new(matches[1].strip, ln, files.size)
 
         yield file if block_given?
