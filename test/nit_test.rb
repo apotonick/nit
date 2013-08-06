@@ -63,6 +63,15 @@ class LinesTest < StatusTest
     let (:output) { "1\n2" }
     it { Nit::Lines.new(output).to_s.must_equal(output) }
   end
+
+  describe "Line" do
+    let (:lines) { Nit::Lines.new("stage\nrocks") }
+    subject { lines[0] }
+
+    it { subject.to_s.must_equal "stage" }
+    it { subject.delete
+         lines.to_s.must_equal "rocks"}
+  end
 end
 
 class NitFileTest < MiniTest::Spec

@@ -6,7 +6,6 @@ require "/home/nick/projects/nit/lib/nit/status"
 # TODO:
 # * diff 1 2
 # * diff workflow: going through changed files, adding them while reading!
-# * nit => nit status with bold branch!
 # * temporarily ignore files [ignored files: 12]
 # * nit unstage => git reset HEAD
 

@@ -1,7 +1,7 @@
 module Nit
   class Lines < Array
     def initialize(text)
-      super(text.split("\n"))
+      super(text.split("\n").collect { |ln| Line.new(ln, self) })
     end
 
     def find(pattern)
@@ -23,7 +23,6 @@ module Nit
         end
       end
 
-
       files
     end
 
@@ -37,6 +36,18 @@ module Nit
         modified: /#\tmodified:(.+)/,
         new: /#\t([^modified:].+)/
       }
+    end
+  end
+
+  class Line < String
+    def initialize(string, screen)
+      super(string)
+      @screen = screen
+    end
+
+    # Deletes the entire line from the screen.
+    def delete
+      @screen.delete(self)
     end
   end
 
