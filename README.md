@@ -1,28 +1,24 @@
 # Nit
 
-TODO: Write a gem description
+_Improving your Git workflow since 2013._
+
+Nit is a thin command-line wrapper for `git` commands. It gives you handy shortcuts for your everyday workflows.
 
 ## Installation
 
-Add this line to your application's Gemfile:
-
-    gem 'nit'
-
-And then execute:
-
-    $ bundle
-
-Or install it yourself as:
-
-    $ gem install nit
+```
+gem install 'nit'
+```
 
 ## Status & Commit
 
+The blank `nit` command will be your best friend - it's a `git status` on LSD.
+
 ```shell
-nit status
+nit
 ```
 
-Shows file indexes.
+Shows file indexes. new files. bold branch FIXME.
 
 ```shell
 # On branch 1-7
@@ -81,6 +77,15 @@ will add and commit for you.
 git add test/hash_test.rb test/xml_test.rb
 git commit
 ```
+
+## Running Arbitrary Git Commands With File Interpolation
+
+## Ignoring Files
+
+## Speeding It Up
+
+You can abbreviate commands.
+
 
 ## Pull & Push
 
