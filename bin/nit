@@ -9,22 +9,14 @@ require "/home/nick/projects/nit/lib/nit/ignore"
 
 
 # TODO:
-# * diff 1 2
 # * diff workflow: going through changed files, adding them while reading!
 # * nit unstage => git reset HEAD
-# * remove branch command
-# * redirect git xxx abc to git xxx ... when command not in nit. (checkout)
 
 module Nit
   class App < Thor
     include Actions
 
     default_command(:status)
-
-    desc "branch", "Invokes git branch"
-    def branch
-      puts "* #{current_branch}"
-    end
 
     desc "status", "bla"
     def status
