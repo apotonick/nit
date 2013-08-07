@@ -4,22 +4,20 @@ require "/home/nick/projects/nit/lib/nit/lines"
 require "/home/nick/projects/nit/lib/nit/status"
 require "/home/nick/projects/nit/lib/nit/commit"
 require "/home/nick/projects/nit/lib/nit/config"
+require "/home/nick/projects/nit/lib/nit/ignore"
+
 
 
 # TODO:
 # * diff 1 2
 # * diff workflow: going through changed files, adding them while reading!
-# * temporarily ignore files [ignored files: 12]
 # * nit unstage => git reset HEAD
 # * remove branch command
+# * redirect git xxx abc to git xxx ... when command not in nit. (checkout)
 
 module Nit
   class App < Thor
     include Actions
-
-    def config
-      @config ||= Config.new # TODO: eventually pass path.
-    end
 
     default_command(:status)
 
@@ -38,6 +36,12 @@ module Nit
       puts Commit.new(config).call(`git status`, args)
     end
 
+    desc "ignore", "blubb"
+    def ignore(*args)
+      puts Ignore.new(config).call(`git status`, args)
+    end
+
+
     desc "pull", "pull from current branch at origin"
     def pull
       `git pull origin #{current_branch}`
@@ -52,6 +56,10 @@ module Nit
     def current_branch
       output = `git branch`
       branch = output.match(/\* (.+)/)[1].strip
+    end
+
+    def config
+      @config ||= Config.new # TODO: eventually pass path.
     end
   end
 end
