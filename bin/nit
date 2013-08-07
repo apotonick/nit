@@ -61,6 +61,26 @@ module Nit
     def config
       @config ||= Config.new # TODO: eventually pass path.
     end
+
+    # def self.dynamic_command_class
+    #   DynamicCommand
+    # end
+
+    #class DynamicCommand < Thor::DynamicCommand
+    Thor::DynamicCommand.class_eval do # see https://github.com/erikhuda/thor/pull/358
+      def run(app, indexes)
+        command = self.name
+        state   = Status::State.new(`git status`, app.send(:config).ignored_files)
+
+        commit_files = indexes.collect do |i|
+          state.files[i.to_i]
+        end
+
+        output = `git #{command} #{commit_files.join(" ")}`
+        puts "hello: #{output.inspect}"
+        puts output
+      end
+    end
   end
 end
 

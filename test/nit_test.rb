@@ -22,6 +22,13 @@ class NitTest < MiniTest::Spec
   end
 end
 
+class DynamicCommandTest < NitTest
+  it "evaluates indexes and invokes git command with it" do
+    # how to capture STDERR: https://www.ruby-forum.com/topic/1103519#982117
+    nit(" checkout 3 2>&1").must_match "error: pathspec 'new.rb' did not match any file(s) known to git."
+  end
+end
+
 class StatusTest < MiniTest::Spec
   let (:config) { Nit::Config.new }
   let (:output) do <<EOF
