@@ -2,12 +2,17 @@ module Nit
   class Status
     # Encapsulates the process of computing the file index from `git status`.
     class State # DISCUSS: alternative names: Screen, ScreenState, FileIndexes?
+      # TODO: test me.
       def initialize(screen_state, ignored_files)
         @screen = Lines.new(screen_state)
 
         @files, @ignored = files_for(screen, ignored_files)
       end
       attr_reader :files, :ignored, :screen
+
+      def evaluate(indexes)
+        indexes.collect { |i| files[i.to_i] }.join(" ")
+      end
 
     private
       def files_for(screen, ignored_files)
@@ -27,11 +32,13 @@ module Nit
     def call(original=`git status`, *args)
       state = State.new(original, @config.ignored_files)
 
-      process(state.screen, state.files, state.ignored, *args)
+      process(state, *args)
     end
 
   private
-    def process(screen, files, ignored)
+    def process(state)
+      files, screen, ignored = state.files, state.screen, state.ignored
+
       files.each_with_index do |file, i| # TODO: should we have redundant file patterns here? it is better readable, thou.
         ln = file.line
 

@@ -1,11 +1,7 @@
 module Nit
   class Commit < Status
-    def process(screen, files, ignored, indexes) # TODO: use from Status.
-      commit_files = indexes.collect do |i|
-        files[i.to_i]
-      end
-
-      system "git add #{commit_files.join(" ")} && git commit"
+    def process(state, indexes)
+      system "git add #{state.evaluate(indexes)} && git commit"
     end
   end
 end

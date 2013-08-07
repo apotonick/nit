@@ -16,7 +16,6 @@ module Nit
 
     def add_ignored_files(*files)
       unless exist?
-        puts "CREAAAAAT: #{Psych.dump({"ignored_files" => files})}"
         return create_file filename, Psych.dump({"ignored_files" => files})
       end
 

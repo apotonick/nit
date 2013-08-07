@@ -1,9 +1,9 @@
 module Nit
   class Ignore < Status
   private
-    def process(screen, files, ignored, indexes)
+    def process(state, indexes)
       indexes.each do |i|
-        @config.add_ignored_files files[i].to_s
+        @config.add_ignored_files state.evaluate([i]) # FIXME: let thor make coercion.
       end
     end
   end
