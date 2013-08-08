@@ -33,8 +33,6 @@ module Nit
         ::File.exist?(@name)
       end
 
-
-
       def yaml_hash
         Psych.load_file(@name) || {}
       end
@@ -52,7 +50,7 @@ module Nit
 
     def add_ignored_files(*files)
       arr = ignored_files
-      arr += files
+      arr += files.collect(&:to_s)
       file.write("ignored_files", arr)
     end
 
