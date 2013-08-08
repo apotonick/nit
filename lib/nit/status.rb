@@ -10,8 +10,12 @@ module Nit
       end
       attr_reader :files, :ignored, :screen
 
+      def evaluate_index(index)
+        files[index.to_i]
+      end
+
       def evaluate(indexes)
-        indexes.collect { |i| files[i.to_i] }.join(" ")
+        indexes.collect { |i| evaluate_index(i) }.join(" ")
       end
 
     private
