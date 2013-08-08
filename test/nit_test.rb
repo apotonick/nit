@@ -44,6 +44,22 @@ class IgnoreTest < StatusTest
 
     config.ignored_files.must_equal ["on_stage.rb", "staged.rb"]
   end
+
+  describe "ignore (no arguments)" do
+    it "blanks when nothing ignored" do
+      Nit::Ignore.new(config).call(output).must_equal nil
+    end
+
+    it "shows ignored files" do
+      Nit::Ignore.new(config).call(output, [1])
+
+      Nit::Ignore.new(config).call(output).must_equal <<-EOF
+Ignored files:
+[0] staged.rb
+EOF
+# FIXME: why is <<- not working?
+    end
+  end
 end
 
 class LinesTest < StatusTest
