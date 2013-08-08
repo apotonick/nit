@@ -11,7 +11,7 @@ module Nit
       return show if indexes.size == 0
 
       file_list = indexes.collect do |i|
-        file = state.evaluate_index(i)
+        file = state.files[i]
       end.compact
 
 

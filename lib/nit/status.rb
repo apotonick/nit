@@ -10,12 +10,8 @@ module Nit
       end
       attr_reader :files, :ignored, :screen
 
-      def evaluate_index(index)
-        files[index.to_i]
-      end
-
       def evaluate(indexes)
-        indexes.collect { |i| evaluate_index(i) }.join(" ")
+        indexes.collect { |i| files[i] }.join(" ")
       end
 
     private
@@ -25,7 +21,7 @@ module Nit
         ignored = [] # TODO: that must be implemented by Files.
         files.delete_if { |f| ignored_files.include?(f.path) ? ignored << f : false }
 
-        [files, ignored]
+        [Files.new(files), Files.new(ignored)]
       end
     end
 
