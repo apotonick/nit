@@ -62,6 +62,8 @@ module Nit
   end
 
   class Files < Array
-
+    def [](index)
+      super(index.to_i)
+    end
   end
 end

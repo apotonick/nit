@@ -112,6 +112,7 @@ class FilesTest < MiniTest::Spec
   describe "#[]" do # evaluate_index
     it { subject[100].must_equal nil }
     it { subject[0].to_s.must_equal "on_stage.rb" }
+    it { subject["0"].to_s.must_equal "on_stage.rb" }
   end
 
   describe "#index" do
