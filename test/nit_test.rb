@@ -37,6 +37,11 @@ class IgnoreTest < StatusTest
     config.send(:file).rm!
   end
 
+  it "ignores invalid indexes" do
+    Nit::Ignore.new(config).call(output, [100])
+    config.ignored_files.must_equal []
+  end
+
   it "what" do
     config.ignored_files.must_equal []
 

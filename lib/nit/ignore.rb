@@ -4,9 +4,11 @@ module Nit
     def process(state, indexes)
       return show if indexes.size == 0
 
-      indexes.each do |i|
-        @config.add_ignored_files state.evaluate([i]) # FIXME: let thor make coercion.
-      end
+      file_list = indexes.collect do |i|
+        file = state.evaluate_index(i)
+      end.compact
+
+      @config.add_ignored_files *file_list
     end
 
     def show
