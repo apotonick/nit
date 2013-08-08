@@ -12,6 +12,8 @@ require "/home/nick/projects/nit/lib/nit/ignore"
 # * diff workflow: going through changed files, adding them while reading!
 # * nit unstage => git reset HEAD
 # * nit diff 1 2
+# * nit ignore (save time and last changed!)
+# * nit unignore
 
 module Nit
   class App < Thor
@@ -32,6 +34,11 @@ module Nit
     desc "ignore", "blubb"
     def ignore(*args)
       puts Ignore.new(config).call(`git status`, args)
+    end
+
+    desc "unignore", "blubb"
+    def unignore(*args)
+      puts Unignore.new(config).call(`git status`, args)
     end
 
 
