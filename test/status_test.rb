@@ -20,6 +20,18 @@ class StatusTest < MiniTest::Spec
     no changes added to commit (use "git add" and/or "git commit -a")
     EOF
   end
+  subject { Nit::Status.new(config) }
+
+
+  describe "indexing" do
+    it "numbers files" do
+      console = subject.call(output)
+      console.must_match "modified: [0]    on_stage.rb"
+      console.must_match "modified: [1]    staged.rb"
+      console.must_match "[2] brandnew.rb"
+      console.must_match "[3] new.rb"
+    end
+  end
 
   describe "ignoring" do
     after do
@@ -27,13 +39,13 @@ class StatusTest < MiniTest::Spec
     end
 
     it "doesn't show ignored files count per default" do
-      Nit::Status.new(config).call(output).wont_match(/Ignored files:/)
+      subject.call(output).wont_match(/Ignored files:/)
     end
 
     it "shows ignored files when ignoring" do
       config.add_ignored_files("new.rb", "brandnew.rb", "staged.rb") # TODO: make this more generic.
 
-      console = Nit::Status.new(config).call(output)
+      console = subject.call(output)
       console.must_match "[1] ../lib/new.rb" # this file has a new index since all other ignored.
       console.must_match "Ignored files: 3"
       console.wont_match " staged.rb"
