@@ -35,7 +35,7 @@ class StatusTest < MiniTest::Spec
 
   describe "ignoring" do
     after do
-      config.rm_config
+      config.send(:file).rm!
     end
 
     it "doesn't show ignored files count per default" do
