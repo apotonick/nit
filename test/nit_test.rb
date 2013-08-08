@@ -65,6 +65,14 @@ EOF
 # FIXME: why is <<- not working?
     end
   end
+
+  describe "unignore 1 2" do
+    it "what" do
+      Nit::Ignore.new(config).call(output, [0,1])
+      Nit::Unignore.new(config).call(output, [1])
+      config.ignored_files.must_equal ["on_stage.rb"]
+    end
+  end
 end
 
 class LinesTest < StatusTest
@@ -96,4 +104,18 @@ end
 
 class NitFileTest < MiniTest::Spec
   it { Nit::File.new("new.rb", "<line 1>").to_s.must_equal "new.rb" }
+end
+
+class FilesTest < MiniTest::Spec
+  subject { Nit::Files.new(["on_stage.rb", "stage.rb"]) }
+
+  describe "#[]" do # evaluate_index
+    it { subject[100].must_equal nil }
+    it { subject[0].to_s.must_equal "on_stage.rb" }
+  end
+
+  describe "#index" do
+    it { subject.index("on_stage.rb").must_equal 0 }
+    #it { subject.index(Nit::File.new("on_stage.rb", "<line 1>")).must_equal 0 }
+  end
 end

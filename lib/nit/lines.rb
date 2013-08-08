@@ -62,5 +62,6 @@ module Nit
   end
 
   class Files < Array
+
   end
 end

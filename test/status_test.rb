@@ -43,7 +43,7 @@ class StatusTest < MiniTest::Spec
     end
 
     it "shows ignored files when ignoring" do
-      config.add_ignored_files("new.rb", "brandnew.rb", "staged.rb") # TODO: make this more generic.
+      config.ignored_files = ["new.rb", "brandnew.rb", "staged.rb"] # TODO: make this more generic.
 
       console = subject.call(output)
       console.must_match "[1] ../lib/new.rb" # this file has a new index since all other ignored.
@@ -55,7 +55,7 @@ class StatusTest < MiniTest::Spec
     end
 
     it "also ignores files when commiting" do
-      config.add_ignored_files("new.rb", "brandnew.rb", "staged.rb") # TODO: make this more generic.
+      config.ignored_files = ["new.rb", "brandnew.rb", "staged.rb"] # TODO: make this more generic.
 
       commit = Nit::Commit.new(config)
       commit.instance_eval do

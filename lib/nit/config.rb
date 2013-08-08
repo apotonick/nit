@@ -48,10 +48,8 @@ module Nit
       file.read("ignored_files") or []
     end
 
-    def add_ignored_files(*files)
-      arr = ignored_files
-      arr += files.collect(&:to_s)
-      file.write("ignored_files", arr)
+    def ignored_files=(files)
+      file.write("ignored_files", files.collect(&:to_s))
     end
 
   private

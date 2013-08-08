@@ -71,6 +71,7 @@ module Nit
       return unless ignored.size > 0
 
       ignored.each { |f| f.line.delete  }
+      screen << "#"
       screen << "#   Ignored files: #{ignored.size}"
     end
   end

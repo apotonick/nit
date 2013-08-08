@@ -1,5 +1,11 @@
 module Nit
   class Ignore < Status
+    def initialize(*)
+      super
+      @ignores = Files.new(@config.ignored_files)
+    end
+    attr_reader :ignores
+
   private
     def process(state, indexes)
       return show if indexes.size == 0
@@ -8,17 +14,26 @@ module Nit
         file = state.evaluate_index(i)
       end.compact
 
-      @config.add_ignored_files *file_list
+
+      @config.ignored_files=(@config.ignored_files + file_list)
     end
 
     def show
-      ignores = @config.ignored_files
       return if ignores.size == 0
 
       output = "Ignored files:\n"
       ignores.each { |f| output << "[#{ignores.index(f)}] #{f}\n" }
 
       output
+    end
+  end
+
+  class Unignore < Ignore
+  private
+    def process(state, indexes)
+      file_list = indexes.collect { |i| ignores[i] }.compact
+
+      @config.ignored_files=(@config.ignored_files - file_list)
     end
   end
 end
