@@ -2,54 +2,65 @@ require "psych"
 require "thor"
 
 module Nit
-  class Config < Thor::Group
+  class Config < Thor::Group # we have to derive from Group to get the create_file working - that's messy.
     include Thor::Actions
 
-    def ignored_files
-      if exist? and hash = Psych.load_file(filename)
-        puts "ignored: #{hash.inspect}"
-        return hash["ignored_files"]
+    class File
+      def initialize(name, app) # FIXME: i hate the app dependency for #create_file.
+        @name = name
+        @app  = app
       end
 
-      []
+      def read(key)
+        return unless exist?
+        yaml_hash[key]
+      end
+
+      def write(key, value)
+        @app.create_file(@name) unless exist?
+
+        hash = yaml_hash
+        hash[key] = value
+        ::File.open(@name, "w") { |f| f.write(Psych.dump(hash))  }
+      end
+
+      def rm!
+        @app.remove_file(@name)
+      end
+
+    private
+      def exist?
+        ::File.exist?(@name)
+      end
+
+
+
+      def yaml_hash
+        Psych.load_file(@name) || {}
+      end
+    end
+
+
+    def initialize
+      super
+      @file = File.new(filename, self) # FIXME: remove the Thor::App dependency, see above!
+    end
+
+    def ignored_files
+      file.read("ignored_files") or []
     end
 
     def add_ignored_files(*files)
-      unless exist?
-        return create_file filename, Psych.dump({"ignored_files" => files})
-      end
-
-      hash = Psych.load_file(filename)
-      puts "open:"+hash.inspect
-
-      #hash[:ignored_files] ||= []
-      hash["ignored_files"] += files
-
-      puts "about to dump: #{hash.inspect}"
-
-      #create_file filename, Psych.dump(hash)
-      ::File.open(filename, "w") { |f| f.write(Psych.dump(hash))  }
-
-      puts "dumped:"+ Psych.dump(hash)
-    end
-
-    def exist?
-      ::File.exist?(filename)
-    end
-
-    def rm_config
-      remove_file(filename)
+      arr = ignored_files
+      arr += files
+      file.write("ignored_files", arr)
     end
 
   private
+    attr_reader :file
+
     def filename
       ".nit"
     end
-
-  #   def config
-  #   name =
-  #   create_file(name) unless
-  #   Psych.load_file(name)
-  # end
   end
 end

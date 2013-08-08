@@ -2,7 +2,7 @@ require 'test_helper'
 
 class NitTest < MiniTest::Spec
   describe "nit status" do
-    it "numbers files to stage" do
+    it "numbers files to stage" do # TODO: 2BRM, moved to status_test.
       output = nit("status")
       output.must_match "modified: [0]    on_stage.rb"
       output.must_match "modified: [1]    staged.rb"
@@ -34,7 +34,7 @@ class IgnoreTest < StatusTest
   let (:config) { Nit::Config.new }
 
   after do
-    config.rm_config
+    config.send(:file).rm!
   end
 
   it "what" do
