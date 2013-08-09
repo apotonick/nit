@@ -14,6 +14,7 @@ require "/home/nick/projects/nit/lib/nit/ignore"
 # * nit diff 1 2
 # * nit ignore (save time and last changed!)
 # * nit unignore
+# * nit co -a => git commit -a
 
 module Nit
   class App < Thor

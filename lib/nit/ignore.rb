@@ -10,10 +10,7 @@ module Nit
     def process(state, indexes)
       return show if indexes.size == 0
 
-      file_list = indexes.collect do |i|
-        file = state.files[i]
-      end.compact
-
+      file_list = state.files.evaluate(indexes).compact
 
       @config.ignored_files=(@config.ignored_files + file_list)
     end
@@ -31,9 +28,9 @@ module Nit
   class Unignore < Ignore
   private
     def process(state, indexes)
-      file_list = indexes.collect { |i| ignores[i] }.compact
+      file_list = state.ignored.evaluate(indexes).compact
 
-      @config.ignored_files=(@config.ignored_files - file_list)
+      @config.ignored_files=(@config.ignored_files - file_list.map(&:to_s)) # FIXME: make this work with strings and File instances.
     end
   end
 end

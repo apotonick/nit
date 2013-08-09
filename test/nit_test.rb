@@ -107,7 +107,7 @@ class NitFileTest < MiniTest::Spec
 end
 
 class FilesTest < MiniTest::Spec
-  subject { Nit::Files.new(["on_stage.rb", "stage.rb"]) }
+  subject { Nit::Files.new(["on_stage.rb", "stage.rb", "stagedive.mk"]) }
 
   describe "#[]" do # evaluate_index
     it { subject[100].must_equal nil }
@@ -118,6 +118,11 @@ class FilesTest < MiniTest::Spec
   describe "#index" do
     it { subject.index("on_stage.rb").must_equal 0 }
     #it { subject.index(Nit::File.new("on_stage.rb", "<line 1>")).must_equal 0 }
+  end
+
+  # methods that should be in a separate class, like CliIndexer or so.
+  describe "#evaluate" do
+    it { subject.evaluate([1,2]).must_equal ["stage.rb", "stagedive.mk"] }
   end
 
   describe "#list" do

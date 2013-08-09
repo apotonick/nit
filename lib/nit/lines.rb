@@ -62,6 +62,11 @@ module Nit
   end
 
   class Files < Array
+    def initialize(arr=[], indexer=IntegerIndexer)
+      super(arr)
+      extend indexer
+    end
+
     def [](index)
       super(index.to_i)
     end
@@ -69,6 +74,21 @@ module Nit
     # decorator:
     def list(indexes)
       indexes.collect { |i| self[i] }.join(" ")
+    end
+
+    # Return list of file names for indexes.
+    def evaluate(indexes)
+      indexes.collect { |i| self[i] }
+    end
+
+  private
+
+    module IntegerIndexer
+
+    end
+
+    module CharIndexer
+
     end
   end
 end
