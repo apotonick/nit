@@ -39,8 +39,9 @@ module Nit
     def process(state)
       files, screen, ignored = state.files, state.screen, state.ignored
 
-      files.each_with_index do |file, i| # TODO: should we have redundant file patterns here? it is better readable, thou.
+      files.each do |file| # TODO: should we have redundant file patterns here? it is better readable, thou.
         ln = file.line
+        i  = files.index(file)
 
         if ln.match(screen.file_patterns[:modified])
           ln.sub!("#\tmodified:", "#\tmodified: [#{i}] ")
