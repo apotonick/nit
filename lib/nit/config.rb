@@ -17,7 +17,7 @@ module Nit
       end
 
       def write(key, value)
-        @app.create_file(@name) unless exist?
+        @app.create_file(@name, Psych.dump({})) unless exist?
 
         hash = yaml_hash
         hash[key] = value
