@@ -65,5 +65,10 @@ module Nit
     def [](index)
       super(index.to_i)
     end
+
+    # decorator:
+    def list(indexes)
+      indexes.collect { |i| self[i] }.join(" ")
+    end
   end
 end
