@@ -67,28 +67,40 @@ module Nit
       extend indexer
     end
 
-    def [](index)
-      super(index.to_i)
+    # we could also use a dedicated object here.
+    module PublicMethods
+      def [](index)
+        super(index.to_i)
+      end
+
+      # Return list of file names for indexes.
+      def evaluate(indexes)
+        indexes.collect { |i| self[i] }
+      end
     end
+    include PublicMethods
 
     # decorator:
     def list(indexes)
       indexes.collect { |i| self[i] }.join(" ")
     end
 
-    # Return list of file names for indexes.
-    def evaluate(indexes)
-      indexes.collect { |i| self[i] }
-    end
-
   private
 
     module IntegerIndexer
-
     end
 
     module CharIndexer
+      def [](char)
+        map = ("a".."z").collect(&:to_s) # TODO: once per session, make it better!
+        index = map.index(char)
+        super(index)
+      end
 
+      def evaluate(chars)
+        return super if chars.size == 1 and chars.first.length == 1 # "nit commit abc"
+        super(chars.first.split(""))
+      end
     end
   end
 end

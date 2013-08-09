@@ -27,3 +27,12 @@ class FilesTest < MiniTest::Spec
     it { subject.list([0, 1]).must_equal "on_stage.rb stage.rb" }
   end
 end
+
+class CharIndexerTest < MiniTest::Spec
+  subject { Nit::Files.new(["on_stage.rb", "stage.rb", "stagedive.mk"], Nit::Files::CharIndexer) }
+
+  describe "#evaluate" do
+    it { subject.evaluate(["b","c"]).must_equal ["stage.rb", "stagedive.mk"] }
+    it { subject.evaluate(["bc"]).must_equal ["stage.rb", "stagedive.mk"] }
+  end
+end
