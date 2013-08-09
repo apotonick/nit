@@ -121,6 +121,6 @@ class FilesTest < MiniTest::Spec
   end
 
   describe "#list" do
-    it { subject.list([0, 1]).must_equal "on_stage.rb staged.rb" }
+    it { subject.list([0, 1]).must_equal "on_stage.rb stage.rb" }
   end
 end
