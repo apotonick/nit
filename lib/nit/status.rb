@@ -10,10 +10,6 @@ module Nit
       end
       attr_reader :files, :ignored, :screen
 
-      def evaluate(indexes)
-        indexes.collect { |i| files[i] }.join(" ")
-      end
-
     private
       def files_for(screen, ignored_files)
         files = screen.files
