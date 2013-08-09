@@ -52,13 +52,13 @@ class IgnoreTest < StatusTest
 
   describe "ignore (no arguments)" do
     it "blanks when nothing ignored" do
-      Nit::Ignore.new(config).call(output).must_equal nil
+      Nit::Ignore.new(config).call(output, []).must_equal nil
     end
 
     it "shows ignored files" do
       Nit::Ignore.new(config).call(output, [1])
 
-      Nit::Ignore.new(config).call(output).must_equal <<-EOF
+      Nit::Ignore.new(config).call(output, []).must_equal <<-EOF
 Ignored files:
 [0] staged.rb
 EOF
@@ -118,5 +118,9 @@ class FilesTest < MiniTest::Spec
   describe "#index" do
     it { subject.index("on_stage.rb").must_equal 0 }
     #it { subject.index(Nit::File.new("on_stage.rb", "<line 1>")).must_equal 0 }
+  end
+
+  describe "#list" do
+    it { subject.list([0, 1]).must_equal "on_stage.rb staged.rb" }
   end
 end
