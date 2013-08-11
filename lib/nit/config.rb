@@ -52,6 +52,14 @@ module Nit
       file.write("ignored_files", files.collect(&:to_s))
     end
 
+    def indexer
+      file.read("indexer") or Nit::Files::IntegerIndexer
+    end
+
+    def indexer=(value)
+      file.write("indexer", value)
+    end
+
   private
     attr_reader :file
 
