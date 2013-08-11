@@ -80,6 +80,10 @@ git commit
 
 ## Running Arbitrary Git Commands With File Interpolation
 
+This is especially helpful for things like
+
+`nit diff 1 2`
+
 ## Ignoring Files
 
 ## Speeding It Up
