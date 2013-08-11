@@ -7,7 +7,7 @@ end
 class FilesTest < MiniTest::Spec
   subject { Nit::Files.new(["on_stage.rb", "stage.rb", "stagedive.mk"]) }
 
-  describe "#[]" do # evaluate_index
+  describe "#[]" do
     it { subject[100].must_equal nil }
     it { subject[0].to_s.must_equal "on_stage.rb" }
     it { subject["0"].to_s.must_equal "on_stage.rb" }
@@ -34,5 +34,7 @@ class CharIndexerTest < MiniTest::Spec
   describe "#evaluate" do
     it { subject.evaluate(["b","c"]).must_equal ["stage.rb", "stagedive.mk"] }
     it { subject.evaluate(["bc"]).must_equal ["stage.rb", "stagedive.mk"] }
+
+    it { subject.index("stage.rb").must_equal "b" }
   end
 end

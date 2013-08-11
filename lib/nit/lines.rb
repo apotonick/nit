@@ -92,14 +92,22 @@ module Nit
 
     module CharIndexer
       def [](char)
-        map = ("a".."z").collect(&:to_s) # TODO: once per session, make it better!
         index = map.index(char)
         super(index)
       end
 
       def evaluate(chars)
-        return super(chars.first.split("")) if chars.find { |c| c.length > 1 } # "nit commit abc"
-        super if chars
+        chars = chars.first.split("") if chars.find { |c| c.length > 1 } # "nit commit abc"
+        super
+      end
+
+      def index(file)
+        map[super]
+      end
+
+    private
+      def map
+        ("a".."z").collect(&:to_s)
       end
     end
   end
