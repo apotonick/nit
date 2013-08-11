@@ -6,8 +6,8 @@ class ConfigTest < MiniTest::Spec
 
   it { subject.indexer.must_equal Nit::Files::IntegerIndexer }
 
-  it do
-    subject.indexer = Object
-    subject.indexer.must_equal Object
+  it "constantizes #indexer" do
+    subject.indexer = "CharIndexer"
+    subject.indexer.must_equal Nit::Files::CharIndexer
   end
 end

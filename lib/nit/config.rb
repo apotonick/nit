@@ -53,7 +53,8 @@ module Nit
     end
 
     def indexer
-      file.read("indexer") or Nit::Files::IntegerIndexer
+      const = file.read("indexer") || "IntegerIndexer"
+      Nit::Files.const_get(const)
     end
 
     def indexer=(value)
