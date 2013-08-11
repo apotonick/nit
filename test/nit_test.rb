@@ -29,6 +29,10 @@ class DynamicCommandTest < NitTest
   end
 end
 
+class DiffTest < NitTest
+  it { nit(" diff 1").must_match "a\/staged.rb" }
+end
+
 
 class IgnoreTest < StatusTest
   let (:config) { Nit::Config.new }
