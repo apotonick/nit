@@ -98,8 +98,8 @@ module Nit
       end
 
       def evaluate(chars)
-        return super if chars.size == 1 and chars.first.length == 1 # "nit commit abc"
-        super(chars.first.split(""))
+        return super(chars.first.split("")) if chars.find { |c| c.length > 1 } # "nit commit abc"
+        super if chars
       end
     end
   end
