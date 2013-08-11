@@ -70,7 +70,7 @@ module Nit
     Thor::DynamicCommand.class_eval do # see https://github.com/erikhuda/thor/pull/358
       def run(app, indexes)
         command = self.name
-        state   = Status::State.new(`git status`, app.send(:config).ignored_files)
+        state   = Status::State.new(`git status`, app.send(:config))
 
         puts `git #{command} #{state.files.list(indexes)}`
       end

@@ -3,21 +3,21 @@ module Nit
     # Encapsulates the process of computing the file index from `git status`.
     class State # DISCUSS: alternative names: Screen, ScreenState, FileIndexes?
       # TODO: test me.
-      def initialize(screen_state, ignored_files)
+      def initialize(screen_state, config)
         @screen = Lines.new(screen_state)
 
-        @files, @ignored = files_for(screen, ignored_files)
+        @files, @ignored = files_for(screen, config)
       end
       attr_reader :files, :ignored, :screen
 
     private
-      def files_for(screen, ignored_files)
+      def files_for(screen, config)
         files = screen.files
 
         ignored = [] # TODO: that must be implemented by Files.
-        files.delete_if { |f| ignored_files.include?(f.path) ? ignored << f : false }
+        files.delete_if { |f| config.ignored_files.include?(f.path) ? ignored << f : false }
 
-        [Files.new(files), Files.new(ignored)]
+        [Files.new(files, config.indexer), Files.new(ignored, config.indexer)]
       end
     end
 
@@ -26,7 +26,7 @@ module Nit
     end
 
     def call(original=`git status`, *args)
-      state = State.new(original, @config.ignored_files)
+      state = State.new(original, @config)
 
       process(state, *args)
     end
