@@ -10,4 +10,6 @@ class ConfigTest < MiniTest::Spec
     subject.indexer = "CharIndexer"
     subject.indexer.must_equal Nit::Files::CharIndexer
   end
+
+  it { subject.index_renderer.must_equal "AppendIndexRenderer" }
 end
