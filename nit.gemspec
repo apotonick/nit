@@ -8,7 +8,7 @@ Gem::Specification.new do |spec|
   spec.version       = Nit::VERSION
   spec.authors       = ["Nick Sutterer"]
   spec.email         = ["apotonick@gmail.com"]
-  spec.description   = %q{Nit improves your git workflows.}
+  spec.description   = %q{Improving your Git workflow since 2013.}
   spec.summary       = %q{Nit improves your git workflows.}
   spec.homepage      = ""
   spec.license       = "MIT"
