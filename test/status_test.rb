@@ -35,7 +35,7 @@ class StatusTest < MiniTest::Spec
 
   describe "char indexing" do
     it "indexes files" do
-      config.indexer = Nit::Files::CharIndexer
+      config.indexer = "CharIndexer"
 
       console = subject.call(output)
       console.must_match "modified: [a]    on_stage.rb"
