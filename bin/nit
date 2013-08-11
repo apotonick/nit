@@ -73,7 +73,7 @@ module Nit
         command = self.name
         state   = Status::State.new(`git status`, app.send(:config).ignored_files)
 
-        `git #{command} #{state.files.list(indexes)}`
+        puts `git #{command} #{state.files.list(indexes)}`
       end
     end
   end
