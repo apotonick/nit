@@ -21,8 +21,10 @@ module Nit
       end
     end
 
+
     def initialize(config)
       @config = config
+      extend config.index_renderer
     end
 
     def call(original=`git status`, *args)
@@ -40,9 +42,9 @@ module Nit
         i  = files.index(file)
 
         if ln.match(screen.file_patterns[:modified])
-          ln.sub!("#\tmodified:", "#\tmodified: [#{i}] ")
+          process_modified(i, file, ln)
         elsif ln.match(screen.file_patterns[:new])
-          ln.sub!("#\t", "#\t [#{i}] ")
+          process_new(i, file, ln)
         end
       end
 
@@ -52,6 +54,27 @@ module Nit
 
       screen.to_s
     end
+
+    module AppendIndexRenderer
+      def process_modified(i, file, line)
+        line << "  [#{i}]"
+      end
+
+      def process_new(*args)
+        process_modified(*args)
+      end
+    end
+
+    module PrependIndexRenderer
+      def process_modified(i, file, line)
+        line.sub!("#\tmodified:", "#\tmodified: [#{i}] ")
+      end
+
+      def process_new(i, file, line)
+        line.sub!("#\t", "#\t [#{i}] ")
+      end
+    end
+
 
     def bold_branch(lines)
       lines.find(/# On branch (.+)/) do |ln, matches|

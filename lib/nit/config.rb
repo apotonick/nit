@@ -4,6 +4,7 @@ require "thor"
 module Nit
   class Config < Thor::Group # we have to derive from Group to get the create_file working - that's messy.
     include Thor::Actions
+    # Warning: this API will soon change.
 
     class File
       def initialize(name, app) # FIXME: i hate the app dependency for #create_file.
@@ -53,12 +54,17 @@ module Nit
     end
 
     def indexer
-      const = file.read("indexer") || "IntegerIndexer"
+      const = file.read("indexer") || "CharIndexer"
       Nit::Files.const_get(const)
     end
 
     def indexer=(value)
       file.write("indexer", value)
+    end
+
+    def index_renderer
+      const = file.read("index_renderer") || "AppendIndexRenderer"
+      Nit::Status.const_get(const)
     end
 
   private
