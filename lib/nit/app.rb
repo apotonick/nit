@@ -1,4 +1,5 @@
 require "thor"
+require "nit/files"
 require "nit/lines"
 require "nit/status"
 require "nit/commit"
