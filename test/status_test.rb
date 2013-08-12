@@ -1,7 +1,13 @@
 require 'test_helper'
 
 class StatusTest < MiniTest::Spec
-  let (:config) { Nit::Config.new }
+  let (:config) do
+    Nit::Config.new.tap do |cfg| # TODO: test with all combinations?
+      cfg.indexer         = "IntegerIndexer"
+      cfg.index_renderer  = "PrependIndexRenderer"
+    end
+  end
+
   let (:output) do <<-EOF
     # On branch master
     # Changes not staged for commit:
