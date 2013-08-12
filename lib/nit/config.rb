@@ -67,6 +67,10 @@ module Nit
       Nit::Status.const_get(const)
     end
 
+    def index_renderer=(value)
+      file.write("index_renderer", value)
+    end
+
   private
     attr_reader :file
 
