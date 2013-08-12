@@ -46,7 +46,25 @@ First of all, it shows you the current branch in bold.
 
 Secondly, the status screen renders a file index for each file which can be used on the command-line.
 
-Indexes per default are characters on the right-hand side of the filename. This can be configured, in case you prefer digits. You can also have the indexes prepended to the filename.
+Indexes per default are characters on the right-hand side of the filename.
+
+```shell
+#	modified:   on_stage.rb  [a]
+```
+
+This can be configured, in case you prefer digits.
+
+```shell
+#	modified:   on_stage.rb  [0]
+```
+
+You can also have the indexes prepended to the filename.
+
+```shell
+#	modified:   [a] on_stage.rb
+```
+
+Learn [more](https://github.com/apotonick/nit#alternative-indexing).
 
 ## Commit
 
