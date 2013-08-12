@@ -2,7 +2,7 @@
 
 _Improving your Git workflow since 2013._
 
-Nit is a thin command-line wrapper for git. It gives you handy shortcuts for your everyday workflow, reduces your typing and is easily extendable with your own commands.
+Nit is a thin command-line wrapper for git. It gives you handy shortcuts for your everyday work with git, reduces your typing and is easily extendable with your own commands.
 
 
 ## Installation
@@ -66,7 +66,7 @@ git add brandnew.rb
 git commit
 ```
 
-Note that nits adds and commits an already stage file _and_ an untracked file in the same step.
+Note that nits adds and commits an already staged file _and_ an untracked file in the same step.
 
 This could also be run as
 
@@ -92,6 +92,53 @@ Adding with nit becomes obsolete. It is handled by the `commit` command.
 
 ## Ignoring Files
 
+When files on the status screen get in your way you can _ignore_ them. Nit will simply not consider them anymore until you `unignore` them.
+
+Ignoring files is roughly equivalent to `git stash`. However, instead of having to remember dozens of stashes, you simply tell nit to hide files from your status. That helps focusing on the files you are actually working on. Trust us.
+
+
+```shell
+nit ignore a d
+```
+
+This tells nit to ignore `on_stage.rb` and `new.rb`.
+
+```shell
+$ nit
+
+# On branch master
+# Changes not staged for commit:
+#   (use "git add <file>..." to update what will be committed)
+#   (use "git checkout -- <file>..." to discard changes in working directory)
+#
+#	modified:   staged.rb  [a]
+#
+# Untracked files:
+#   (use "git add <file>..." to include in what will be committed)
+#
+#	brandnew.rb  [b]
+#
+# Ignored files: 2
+```
+
+The ignored files are now longer visible. However, the last line reminds you that there are files ignored.
+
+To get a list of ignored files, run:
+
+```shell
+nit ignore
+```
+
+```shell
+[a] on_stage.rb
+[b] new.rb
+```
+
+If you want to commit to the ignored files, just unignore them, again.
+
+```shell
+nit unignore a
+```
 
 ## Push
 
@@ -120,9 +167,53 @@ You can use nit's index interpolation for any git command.
 nit diff ab
 ``
 
-## Alternative Indexing
-
 
 ## Manual Configuration
 
-.nit
+Some operations require nit to save application state. This is done in the `.nit` YAML file in your working directory. You can manually edit it.
+
+
+## Alternative Indexing
+
+You can have number-based indexing.
+
+```shell
+modified:   on_stage.rb  [0]
+modified:   staged.rb  [1]
+```
+
+In `.nit`, do
+
+```yaml
+indexer = "IntegerIndexer"
+```
+
+Some people prefer the index prepending the file name.
+
+```shell
+modified:  [0] on_stage.rb
+modified:  [1] staged.rb
+
+```
+
+Nap in the park.
+
+```yaml
+index_renderer = "PrependIndexRenderer"
+```
+
+## Extending Nit
+
+Extending nit with your own commands can be done either with gems or by placing the extensions into your `.nit` directory. This will be implemented and documented soon.
+
+
+## More
+
+There are plenty of more features planned for the upcoming versions.
+
+
+## License
+
+Copyright (c) 2013, Nick Sutterer <apotonick@gmail.com>
+
+Released under the MIT License.
