@@ -15,13 +15,13 @@ module Nit
       def evaluate(indexes)
         indexes.collect { |i| self[i] }
       end
+
+       # decorator:
+      def list(indexes)
+        indexes.collect { |i| self[i] }.join(" ")
+      end
     end
     include PublicMethods
-
-    # decorator:
-    def list(indexes)
-      indexes.collect { |i| self[i] }.join(" ")
-    end
 
   private
 
@@ -35,17 +35,25 @@ module Nit
       end
 
       def evaluate(chars)
-        chars = chars.first.split("") if chars.find { |c| c.length > 1 } # "nit commit abc"
-        super
+        super(split(chars)) # "nit commit abc"
       end
 
       def index(file)
         map[super]
       end
 
+      def list(indexes)
+        super(split(indexes))
+      end
+
     private
       def map
         ("a".."z").collect(&:to_s)
+      end
+
+      def split(chars)
+        return chars unless chars.find { |c| c.length > 1 } # DISCUSS: what if "> aa bcd xx" where xx is actually an index?
+        chars.first.split("")
       end
     end
   end

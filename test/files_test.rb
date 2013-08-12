@@ -37,4 +37,9 @@ class CharIndexerTest < MiniTest::Spec
 
     it { subject.index("stage.rb").must_equal "b" }
   end
+
+  describe "#list" do
+    it { subject.list(["b","c"]).must_equal "stage.rb stagedive.mk" }
+    it { subject.list(["bc"]).must_equal "stage.rb stagedive.mk" }
+  end
 end

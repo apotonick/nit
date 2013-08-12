@@ -38,3 +38,11 @@ end
 class DiffTest < NitTest
   it { nit(" diff b").must_match "a\/staged.rb" }
 end
+
+class NitWithCharIndexerTest < NitTest
+  it do
+    out = nit(" diff ab")
+    out.must_match "a\/staged.rb"
+    out.must_match "a\/on_stage.rb"
+  end
+end
