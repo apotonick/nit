@@ -48,8 +48,6 @@ Secondly, the status screen renders a file index for each file which can be used
 
 Indexes per default are characters on the right-hand side of the filename. This can be configured, in case you prefer digits. You can also have the indexes prepended to the filename.
 
-However, scientific studies with `nit` over the last 18 years have proven that characters instead of digits are faster to reach when typing. Also, indexes _appended_ to the filename make them easier to read when deciding what to commit.
-
 ## Commit
 
 To commit files, you no longer use the filename but their indexes.
@@ -165,7 +163,7 @@ You can use nit's index interpolation for any git command.
 
 ```shell
 nit diff ab
-``
+```
 
 
 ## Manual Configuration
@@ -201,6 +199,8 @@ Nap in the park.
 ```yaml
 index_renderer = "PrependIndexRenderer"
 ```
+
+However, scientific studies with `nit` over the last 18 years have proven that characters instead of digits are faster to reach when typing. Also, indexes _appended_ to the filename make them easier to read when deciding what to commit.
 
 ## Extending Nit
 
