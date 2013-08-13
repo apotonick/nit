@@ -31,7 +31,7 @@ class StatusTest < MiniTest::Spec
 
   describe "indexing" do
     it "numbers files" do
-      console = subject.call(output)
+      console = subject.call([], output)
       console.must_match "modified: [0]    on_stage.rb"
       console.must_match "modified: [1]    staged.rb"
       console.must_match "[2] brandnew.rb"
@@ -43,7 +43,7 @@ class StatusTest < MiniTest::Spec
     it "indexes files" do
       config.indexer = "CharIndexer"
 
-      console = subject.call(output)
+      console = subject.call([], output)
       console.must_match "modified: [a]    on_stage.rb"
       console.must_match "modified: [b]    staged.rb"
       console.must_match "[c] brandnew.rb"
@@ -57,13 +57,13 @@ class StatusTest < MiniTest::Spec
     end
 
     it "doesn't show ignored files count per default" do
-      subject.call(output).wont_match(/Ignored files:/)
+      subject.call([], output).wont_match(/Ignored files:/)
     end
 
     it "shows ignored files when ignoring" do
       config.ignored_files = ["new.rb", "brandnew.rb", "staged.rb"] # TODO: make this more generic.
 
-      console = subject.call(output)
+      console = subject.call([], output)
       console.must_match "[1] ../lib/new.rb" # this file has a new index since all other ignored.
       console.must_match "Ignored files: 3"
       console.wont_match " staged.rb"
@@ -82,7 +82,7 @@ class StatusTest < MiniTest::Spec
         end
       end
 
-      commit.call(output, [1]).must_equal "git add ../lib/new.rb && git commit"
+      commit.call([1], output).must_equal "git add ../lib/new.rb && git commit"
     end
   end
 end

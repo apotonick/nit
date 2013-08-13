@@ -1,5 +1,5 @@
 module Nit
-  class Status
+  class Status < Command
     # Encapsulates the process of computing the file index from `git status`.
     class State # DISCUSS: alternative names: Screen, ScreenState, FileIndexes?
       # TODO: test me.
@@ -23,18 +23,18 @@ module Nit
 
 
     def initialize(config)
-      @config = config
+      super
       extend config.index_renderer
     end
 
-    def call(original=`git status`, *args)
+    def call(args, original=`git status`)
       state = State.new(original, @config)
 
-      process(state, *args)
+      process(state, args)
     end
 
   private
-    def process(state)
+    def process(state, args)
       files, screen, ignored = state.files, state.screen, state.ignored
 
       files.each do |file| # TODO: should we have redundant file patterns here? it is better readable, thou.

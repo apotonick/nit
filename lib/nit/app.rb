@@ -19,7 +19,6 @@ require "nit/pull"
 # * nit unignore
 # * nit co -a => git commit -a
 # * nit co -m ".." abc
-# * nit push --tags
 # * nit co 1<tab> => filename
 
 module Nit
@@ -29,13 +28,13 @@ module Nit
     default_command(:status)
 
     desc "status", "bla"
-    def status
-      puts Status.new(config).call
+    def status(*args)
+      puts Status.new(config).call(args)
     end
 
     desc "commit", "blubb"
     def commit(*args)
-      puts Commit.new(config).call(`git status`, args)
+      puts Commit.new(config).call(args)
     end
 
     desc "ignore", "blubb"
