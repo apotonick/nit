@@ -8,7 +8,7 @@ require "nit/config"
 require "nit/ignore"
 require "nit/push"
 require "nit/pull"
-
+require "nit/dynamic"
 
 
 
@@ -69,11 +69,7 @@ module Nit
     #class DynamicCommand < Thor::DynamicCommand
     Thor::DynamicCommand.class_eval do # see https://github.com/erikhuda/thor/pull/358
       def run(app, indexes)
-        #raise "dynamic: #{indexes.inspect}"
-        command = self.name
-        state   = Status::State.new(`git status`, app.send(:config))
-
-        puts `git #{command} #{state.files.list(indexes)}`
+        puts Nit::Dynamic.new(app.send(:config)).call(name, indexes)
       end
     end
   end
