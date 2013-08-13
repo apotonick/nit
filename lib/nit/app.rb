@@ -39,12 +39,12 @@ module Nit
 
     desc "ignore", "blubb"
     def ignore(*args)
-      puts Ignore.new(config).call(`git status`, args)
+      puts Ignore.new(config).call(args)
     end
 
     desc "unignore", "blubb"
     def unignore(*args)
-      puts Unignore.new(config).call(`git status`, args)
+      puts Unignore.new(config).call(args)
     end
 
 
