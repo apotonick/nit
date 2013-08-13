@@ -1,6 +1,6 @@
 module Nit
   class Files < Array
-    def initialize(arr=[], indexer=IntegerIndexer)
+    def initialize(arr=[], indexer=IntegerIndexer) # FIXME: make 2nd arg obligatory.
       super(arr)
       extend indexer
     end

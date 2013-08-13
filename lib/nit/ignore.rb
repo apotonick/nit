@@ -2,7 +2,7 @@ module Nit
   class Ignore < Status
     def initialize(*)
       super
-      @ignores = Files.new(@config.ignored_files)
+      @ignores = Files.new(@config.ignored_files, @config.indexer)
     end
     attr_reader :ignores
 
