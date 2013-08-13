@@ -35,8 +35,10 @@ class DynamicCommandTest < NitTest
   end
 end
 
-class DiffTest < NitTest
+class ArbitraryGitCommandsTest < NitTest
   it { nit(" diff b").must_match "a\/staged.rb" }
+
+  it { nit(" diff --raw -m 'bla' b").must_match ":100644 100644 e69de29... 0000000... M  staged.rb" }
 end
 
 class NitWithCharIndexerTest < NitTest

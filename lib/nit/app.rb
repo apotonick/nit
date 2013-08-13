@@ -1,10 +1,14 @@
 require "thor"
 require "nit/files"
 require "nit/lines"
+require "nit/command"
 require "nit/status"
 require "nit/commit"
 require "nit/config"
 require "nit/ignore"
+require "nit/push"
+require "nit/pull"
+
 
 
 
@@ -14,6 +18,8 @@ require "nit/ignore"
 # * nit ignore (save time and last changed!)
 # * nit unignore
 # * nit co -a => git commit -a
+# * nit co -m ".." abc
+# * nit push --tags
 # * nit co 1<tab> => filename
 
 module Nit
@@ -45,12 +51,12 @@ module Nit
 
     desc "pull", "pull from current branch at origin"
     def pull
-      `git pull origin #{current_branch}`
+      puts Nit::Pull.new(config).call(args)
     end
 
     desc "push", "push to current branch at origin"
-    def push
-      `git push origin #{current_branch}`
+    def push(*args)
+      puts Nit::Push.new(config).call(args)
     end
 
   private
@@ -70,6 +76,7 @@ module Nit
     #class DynamicCommand < Thor::DynamicCommand
     Thor::DynamicCommand.class_eval do # see https://github.com/erikhuda/thor/pull/358
       def run(app, indexes)
+        #raise "dynamic: #{indexes.inspect}"
         command = self.name
         state   = Status::State.new(`git status`, app.send(:config))
 
