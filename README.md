@@ -170,6 +170,12 @@ Will figure out the current branch and run
 git push origin <current branch>
 ```
 
+Note that `pull` and `push` accept command-line options, so this will push your tags as well, if you're releasing.
+
+```shell
+nit push --tags
+```
+
 ## Pull
 
 The same works for `nit pull`.
