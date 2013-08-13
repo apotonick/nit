@@ -8,24 +8,6 @@ class StatusTest < MiniTest::Spec
     end
   end
 
-  let (:output) do <<-EOF
-    # On branch master
-    # Changes not staged for commit:
-    #   (use "git add <file>..." to update what will be committed)
-    #   (use "git checkout -- <file>..." to discard changes in working directory)
-    #
-    #\tmodified:   on_stage.rb
-    #\tmodified:   staged.rb
-    #
-    # Untracked files:
-    #   (use "git add <file>..." to include in what will be committed)
-    #
-    #\tbrandnew.rb
-    #\tnew.rb
-    #\t../lib/new.rb
-    no changes added to commit (use "git add" and/or "git commit -a")
-    EOF
-  end
   subject { Nit::Status.new(config) }
 
 
@@ -70,19 +52,6 @@ class StatusTest < MiniTest::Spec
       console.wont_match " new.rb"
       console.wont_match " brandnew.rb"
       console.must_match " ../lib/new.rb"
-    end
-
-    it "also ignores files when commiting" do
-      config.ignored_files = ["new.rb", "brandnew.rb", "staged.rb"] # TODO: make this more generic.
-
-      commit = Nit::Commit.new(config)
-      commit.instance_eval do
-        def system(command)
-          command
-        end
-      end
-
-      commit.call([1], output).must_equal "git add ../lib/new.rb && git commit"
     end
   end
 end
