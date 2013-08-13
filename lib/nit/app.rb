@@ -47,7 +47,6 @@ module Nit
       puts Unignore.new(config).call(args)
     end
 
-
     desc "pull", "pull from current branch at origin"
     def pull
       puts Nit::Pull.new(config).call(args)
@@ -59,11 +58,6 @@ module Nit
     end
 
   private
-    def current_branch
-      output = `git branch`
-      branch = output.match(/\* (.+)/)[1].strip
-    end
-
     def config
       @config ||= Config.new # TODO: eventually pass path.
     end
