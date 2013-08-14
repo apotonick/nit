@@ -48,7 +48,7 @@ module Nit
     end
 
     desc "pull", "pull from current branch at origin"
-    def pull
+    def pull(*args)
       puts Nit::Pull.new(config).call(args)
     end
 
@@ -68,8 +68,8 @@ module Nit
 
     #class DynamicCommand < Thor::DynamicCommand
     Thor::DynamicCommand.class_eval do # see https://github.com/erikhuda/thor/pull/358
-      def run(app, indexes)
-        puts Nit::Dynamic.new(app.send(:config)).call(name, indexes)
+      def run(app, args)
+        puts Nit::Dynamic.new(app.send(:config)).call(name, args)
       end
     end
   end
