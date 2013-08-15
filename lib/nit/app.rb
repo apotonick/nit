@@ -69,7 +69,7 @@ module Nit
     #class DynamicCommand < Thor::DynamicCommand
     Thor::DynamicCommand.class_eval do # see https://github.com/erikhuda/thor/pull/358
       def run(app, args)
-        puts Nit::Dynamic.new(app.send(:config)).call(name, args)
+        puts Nit::Dynamic.new(app.send(:config), name).call(args)
       end
     end
   end

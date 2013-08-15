@@ -4,17 +4,17 @@ module Nit
       @config = config
     end
 
-    def ___call(args, original=`git status`)
-      state = State.new(original, @config)
+    def call(args, original=`git status`)
+      state = Status::State.new(original, @config)
 
-      #indexes, args = process_args(args)
+      indexes, args = process_args(args)
 
-      process(state, args)
+      process(state, indexes, args)
     end
 
   private
     def process_args(args)
-args
+      ArgsProcessor.new(@config).call(args)
     end
 
     class ArgsProcessor
