@@ -39,7 +39,6 @@ class ArbitraryGitCommandsTest < NitTest
   it { nit(" diff b").must_match "a\/staged.rb" }
 
   it { nit(" diff --raw b").must_equal ":100644 100644 e69de29... 0000000... M\tstaged.rb\n" }
-  # TODO: test commit -m
 end
 
 class NitWithCharIndexerTest < NitTest

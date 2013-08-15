@@ -18,7 +18,7 @@ class CommandsTest < MiniTest::Spec
     it { cmd.call(["--tags"], screen).must_equal("git push origin master --tags") }
   end
 
-  describe "puLL" do
+  describe "pull" do
     let (:klass) { "Pull" }
     let (:screen) { "* master\n" }
 
@@ -33,7 +33,7 @@ class CommandsTest < MiniTest::Spec
     it "also ignores files when commiting" do
       config.ignored_files = ["new.rb", "brandnew.rb", "staged.rb"] # TODO: make this more generic.
 
-      cmd.call(["b"], output).must_equal "git add ../lib/new.rb && git commit"
+      cmd.call(["b"], output).must_equal "git add ../lib/new.rb && git commit "
     end
 
     it { cmd.call(["-m", '"awesome work"', "b"], output).must_equal "git add ../lib/new.rb && git commit -m \"awesome work\"" }

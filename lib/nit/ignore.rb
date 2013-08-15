@@ -7,7 +7,7 @@ module Nit
     attr_reader :ignores
 
   private
-    def process(state, indexes)
+    def process(state, indexes, args)
       return show if indexes.size == 0
 
       file_list = state.files.evaluate(indexes).compact
@@ -27,7 +27,7 @@ module Nit
 
   class Unignore < Ignore
   private
-    def process(state, indexes)
+    def process(state, indexes, args)
       file_list = state.ignored.evaluate(indexes).compact
 
       @config.ignored_files=(@config.ignored_files - file_list.map(&:to_s)) # FIXME: make this work with strings and File instances.

@@ -1,7 +1,7 @@
 module Nit
   class Commit < Status
-    def process(state, indexes)
-      system "git add #{state.files.list(indexes)} && git commit"
+    def process(state, indexes, args)
+      system "git add #{state.files.list(indexes)} && git commit #{args.join(" ")}"
     end
   end
 end

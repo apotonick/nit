@@ -27,14 +27,8 @@ module Nit
       extend config.index_renderer
     end
 
-    def call(args, original=`git status`)
-      state = State.new(original, @config)
-
-      process(state, args)
-    end
-
   private
-    def process(state, args)
+    def process(state, indexes, args)
       files, screen, ignored = state.files, state.screen, state.ignored
 
       files.each do |file| # TODO: should we have redundant file patterns here? it is better readable, thou.
