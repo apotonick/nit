@@ -1,4 +1,4 @@
-module Nit
+class Nit::Command
   class Pull < Push
   private
     def command

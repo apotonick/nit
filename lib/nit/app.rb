@@ -1,15 +1,14 @@
 require "thor"
 require "nit/files"
 require "nit/lines"
-require "nit/command"
-require "nit/status"
-require "nit/commit"
 require "nit/config"
-require "nit/ignore"
-require "nit/push"
-require "nit/pull"
-require "nit/dynamic"
-
+require "nit/command"
+require "nit/command/status"
+require "nit/command/commit"
+require "nit/command/ignore"
+require "nit/command/push"
+require "nit/command/pull"
+require "nit/command/dynamic"
 
 
 # TODO:
@@ -18,7 +17,6 @@ require "nit/dynamic"
 # * nit ignore (save time and last changed!)
 # * nit unignore
 # * nit co -a => git commit -a
-# * nit co -m ".." abc
 # * nit co 1<tab> => filename
 
 module Nit
@@ -29,32 +27,32 @@ module Nit
 
     desc "status", "bla"
     def status(*args)
-      puts Status.new(config).call(args)
+      puts Command::Status.new(config).call(args)
     end
 
     desc "commit", "blubb"
     def commit(*args)
-      puts Commit.new(config).call(args)
+      puts Command::Commit.new(config).call(args)
     end
 
     desc "ignore", "blubb"
     def ignore(*args)
-      puts Ignore.new(config).call(args)
+      puts Command::Ignore.new(config).call(args)
     end
 
     desc "unignore", "blubb"
     def unignore(*args)
-      puts Unignore.new(config).call(args)
+      puts Command::Unignore.new(config).call(args)
     end
 
     desc "pull", "pull from current branch at origin"
     def pull(*args)
-      puts Nit::Pull.new(config).call(args)
+      puts Command::Pull.new(config).call(args)
     end
 
     desc "push", "push to current branch at origin"
     def push(*args)
-      puts Nit::Push.new(config).call(args)
+      puts Command::Push.new(config).call(args)
     end
 
   private
@@ -69,7 +67,7 @@ module Nit
     #class DynamicCommand < Thor::DynamicCommand
     Thor::DynamicCommand.class_eval do # see https://github.com/erikhuda/thor/pull/358
       def run(app, args)
-        puts Nit::Dynamic.new(app.send(:config), name).call(args)
+        puts Command::Dynamic.new(app.send(:config), name).call(args)
       end
     end
   end

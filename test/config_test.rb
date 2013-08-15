@@ -11,5 +11,5 @@ class ConfigTest < MiniTest::Spec
     subject.indexer.must_equal Nit::Files::CharIndexer
   end
 
-  it { subject.index_renderer.must_equal Nit::Status::AppendIndexRenderer }
+  it { subject.index_renderer.must_equal Nit::Command::Status::AppendIndexRenderer }
 end

@@ -8,7 +8,7 @@ class StatusTest < MiniTest::Spec
     end
   end
 
-  subject { Nit::Status.new(config) }
+  subject { Nit::Command::Status.new(config) }
 
 
   describe "indexing" do

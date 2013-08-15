@@ -12,6 +12,7 @@ class Default < Thor
     Rake::Task["build"].execute
   end
 
+  # sometimes gem install pkg/nit-0.x.x works.
   desc "install", "Build and install nit-#{Nit::VERSION}.gem into system gems"
   def install
     Rake::Task["install"].execute

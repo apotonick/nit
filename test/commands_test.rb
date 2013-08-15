@@ -2,7 +2,7 @@ require 'test_helper'
 
 class CommandsTest < MiniTest::Spec
   let (:config) { Nit::Config.new }
-  let (:cmd_obj) { Nit.const_get(klass).new(config) }
+  let (:cmd_obj) { Nit::Command.const_get(klass).new(config) }
   let (:cmd) { cmd_obj.tap do |obj|
     obj.instance_eval do
       def system(string); string; end
@@ -37,6 +37,8 @@ class CommandsTest < MiniTest::Spec
     end
 
     it { cmd.call(["-m", '"awesome work"', "b"], output).must_equal "git add ../lib/new.rb && git commit -m \"awesome work\"" }
+
+    # TODO: test nit commit -a
   end
 end
 

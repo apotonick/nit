@@ -7,27 +7,27 @@ class IgnoreTest < StatusTest
   end
 
   it "ignores invalid indexes" do
-    Nit::Ignore.new(config).call(["z"], output)
+    Nit::Command::Ignore.new(config).call(["z"], output)
     config.ignored_files.must_equal []
   end
 
   it "what" do
     config.ignored_files.must_equal []
 
-    Nit::Ignore.new(config).call(["ab"], output)
+    Nit::Command::Ignore.new(config).call(["ab"], output)
 
     config.ignored_files.must_equal ["on_stage.rb", "staged.rb"]
   end
 
   describe "ignore (no arguments)" do
     it "blanks when nothing ignored" do
-      Nit::Ignore.new(config).call([], output).must_equal nil
+      Nit::Command::Ignore.new(config).call([], output).must_equal nil
     end
 
     it "shows ignored files" do
-      Nit::Ignore.new(config).call(["b"], output)
+      Nit::Command::Ignore.new(config).call(["b"], output)
 
-      Nit::Ignore.new(config).call([], output).must_equal <<-EOF
+      Nit::Command::Ignore.new(config).call([], output).must_equal <<-EOF
 Ignored files:
 [a] staged.rb
 EOF
@@ -37,8 +37,8 @@ EOF
 
   describe "unignore 1 2" do
     it "what" do
-      Nit::Ignore.new(config).call(["ab"], output)
-      Nit::Unignore.new(config).call(["b"], output)
+      Nit::Command::Ignore.new(config).call(["ab"], output)
+      Nit::Command::Unignore.new(config).call(["b"], output)
       config.ignored_files.must_equal ["on_stage.rb"]
     end
   end

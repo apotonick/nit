@@ -64,7 +64,7 @@ module Nit
 
     def index_renderer
       const = file.read("index_renderer") || "AppendIndexRenderer"
-      Nit::Status.const_get(const)
+      Nit::Command::Status.const_get(const)
     end
 
     def index_renderer=(value)
