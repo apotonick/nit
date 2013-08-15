@@ -27,18 +27,16 @@ class CommandsTest < MiniTest::Spec
   end
 
   describe "commit" do
+    let (:klass) { "Commit" }
+    let (:screen) { output }
+
     it "also ignores files when commiting" do
       config.ignored_files = ["new.rb", "brandnew.rb", "staged.rb"] # TODO: make this more generic.
 
-      commit = Nit::Commit.new(config)
-      commit.instance_eval do
-        def system(command)
-          command
-        end
-      end
-
-      commit.call(["b"], output).must_equal "git add ../lib/new.rb && git commit"
+      cmd.call(["b"], output).must_equal "git add ../lib/new.rb && git commit"
     end
+
+    it {  }
   end
 end
 
