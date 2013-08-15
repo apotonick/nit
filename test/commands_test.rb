@@ -41,3 +41,13 @@ class CommandsTest < MiniTest::Spec
     end
   end
 end
+
+class ArgsProcessorTest < MiniTest::Spec
+  let (:config) { Nit::Config.new }
+  subject { Nit::Command::ArgsProcessor.new(config) }
+
+  it { subject.call([]).must_equal [[], []] }
+  it { subject.call(["-a"]).must_equal [[], ["-a"]] }
+  it { subject.call(["-a", "-m", '"message"', "abc"]).must_equal [["abc"], ["-a", "-m", '"message"']] }
+  it { subject.call(["-m", '"message"', "a", "b"]).must_equal [["a", "b"], ["-m", '"message"']] }
+end
