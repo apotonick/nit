@@ -36,7 +36,7 @@ class CommandsTest < MiniTest::Spec
       cmd.call(["b"], output).must_equal "git add ../lib/new.rb && git commit"
     end
 
-    it {  }
+    it { cmd.call(["-m", '"awesome work"', "b"], output).must_equal "git add ../lib/new.rb && git commit -m \"awesome work\"" }
   end
 end
 
