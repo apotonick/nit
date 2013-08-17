@@ -6,7 +6,8 @@ class LinesTest < StatusTest
         "staged.rb",
         "brandnew.rb",
         "new.rb",
-        "../lib/new.rb"])
+        "../lib/new.rb",
+        "db/migrate/"])
     end
   end
 

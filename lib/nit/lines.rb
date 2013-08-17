@@ -32,7 +32,7 @@ module Nit
     def file_patterns
       {
         modified: /#\tmodified:(.+)/,
-        new: /#\t([^modified:].+)/
+        new: /#\t((?!modified:).+)/
       }
     end
   end

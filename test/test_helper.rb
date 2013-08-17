@@ -17,6 +17,7 @@ MiniTest::Spec.class_eval do
     #\tbrandnew.rb
     #\tnew.rb
     #\t../lib/new.rb
+    #\tdb/migrate/
     no changes added to commit (use "git add" and/or "git commit -a")
     EOF
   end
