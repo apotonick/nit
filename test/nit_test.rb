@@ -20,6 +20,7 @@ class NitTest < MiniTest::Spec
   def nit(args)
     output = ""
     Dir.chdir "test/dummies/stage" do
+      `rm -rf .git`
       `cp -R git .git`
       output = `../../../bin/nit #{args}`
       `rm -rf .git`
