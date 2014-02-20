@@ -19,11 +19,16 @@ class NitTest < MiniTest::Spec
 
   def nit(args)
     output = ""
+
+    Dir.chdir "test/dummies/" do
+      `rm -rf stage`
+      `mkdir stage`
+      `cp -R git stage/.git`
+      `cp files/* stage/`
+    end
+
     Dir.chdir "test/dummies/stage" do
-      `rm -rf .git`
-      `cp -R git .git`
       output = `../../../bin/nit #{args}`
-      `rm -rf .git`
     end
     output
   end
@@ -40,6 +45,8 @@ class ArbitraryGitCommandsTest < NitTest
   it { nit(" diff b").must_match "a\/staged.rb" }
 
   it { nit(" diff --raw b").must_equal ":100644 100644 e69de29... 0000000... M\tstaged.rb\n" }
+
+  # it { puts nit(' co -m "fixing it" a') }
 end
 
 class NitWithCharIndexerTest < NitTest
