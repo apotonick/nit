@@ -30,6 +30,11 @@ class NitTest < MiniTest::Spec
     Dir.chdir "test/dummies/stage" do
       output = `../../../bin/nit #{args}`
     end
+
+    Dir.chdir "test/dummies/" do
+      `rm -rf stage`
+    end
+
     output
   end
 end
