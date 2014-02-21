@@ -1,6 +1,11 @@
+## 0.0.5
+
+
+
 ## 0.0.4
 
 * Fixed a bug where new files starting with one of the chars in [modified] weren't recognized.
+* Finally allow `nit commit -m "awesome work" abc", it didn't really work on the CLI before.
 
 ## 0.0.3
 
