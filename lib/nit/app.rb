@@ -32,6 +32,11 @@ module Nit
 
     desc "commit", "blubb"
     def commit(*args)
+      # TODO: fix this in Thor, or here, on top-thor-level:
+      if i = args.index("-m")
+        args[i+1] = "\"#{args[i+1]}\""
+      end
+
       puts Command::Commit.new(config).call(args)
     end
 
