@@ -51,11 +51,19 @@ class ArbitraryGitCommandsTest < NitTest
 
   it { nit(" diff --raw b").must_equal ":100644 100644 e69de29... 0000000... M\tstaged.rb\n" }
 
-  it( "allows strings on command line") do # TODO: implement that for all commands.
+  # commit:
+  it "allows strings after -m" do # TODO: implement that for all commands?
     output = nit(' co -m "fixing it" a')
     output.must_match "] fixing it\n"
     output.must_match "1 file changed" # TODO: check if correct file was commited.
   end
+
+  # it "allows -m after file indices" do
+  #   output = nit(' co ab -m add something 4 u')
+  #   puts output
+  #   output.must_match "] add #999\n"
+  #   output.must_match "2 files changed" # TODO: check if correct file was commited.
+  # end
 end
 
 class NitWithCharIndexerTest < NitTest

@@ -36,7 +36,9 @@ class CommandsTest < MiniTest::Spec
       cmd.call(["b"], output).must_equal "git add ../lib/new.rb && git commit "
     end
 
-    it { cmd.call(["-m", '"awesome work"', "b"], output).must_equal "git add ../lib/new.rb && git commit -m \"awesome work\"" }
+    # FIXME: this test is useless as -m didn't work in earlier versions of nit.
+    # "awesome work" is passed in as 'awesome work', without any additional quotes from thor.
+    it { cmd.call(["-m", "awesome work", "b"], output).must_equal "git add ../lib/new.rb && git commit -m \"awesome work\"" }
 
     # TODO: test nit commit -a
   end
