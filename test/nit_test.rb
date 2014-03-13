@@ -25,6 +25,8 @@ class NitTest < MiniTest::Spec
       `mkdir stage`
       `cp -R git stage/.git`
       `cp files/* stage/`
+
+      yield if block_given?
     end
 
     Dir.chdir "test/dummies/stage" do
@@ -57,6 +59,19 @@ class ArbitraryGitCommandsTest < NitTest
     output.must_match "] fixing it\n"
     output.must_match "1 file changed" # TODO: check if correct file was commited.
   end
+
+  # FIXME: with one changed, one new file!!!
+  it "what" do
+    output = nit(' ') do
+      `touch stage/new_file`
+      `cd stage && git add stage/new_file`
+    end
+    puts output
+    output.must_match "] fixing it\n"
+  end
+
+
+
 
   # it "allows -m after file indices" do
   #   output = nit(' co ab -m add something 4 u')

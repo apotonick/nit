@@ -20,6 +20,15 @@ class StatusTest < MiniTest::Spec
       console.must_match "[3] new.rb"
       console.must_match "[5] db/migrate/"
     end
+
+    it "processes `git status` without #" do
+      console = subject.call([], output)
+      console.must_match "modified: [0]    on_stage.rb"
+      console.must_match "modified: [1]    staged.rb"
+      console.must_match "[2] brandnew.rb"
+      console.must_match "[3] new.rb"
+      console.must_match "[5] db/migrate/"
+    end
   end
 
   describe "char indexing" do

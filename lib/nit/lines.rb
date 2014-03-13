@@ -31,8 +31,8 @@ module Nit
   #private
     def file_patterns
       {
-        modified: /#\tmodified:(.+)/,
-        new: /#\t((?!modified:).+)/
+        modified: /#?\tmodified:(.+)/,
+        new: /#?\t((?!modified:).+)/
       }
     end
   end
