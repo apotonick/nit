@@ -1,6 +1,6 @@
 ## 0.0.5
 
-
+* Make nit compatible with a git upgrade where the status command doesn't prepend lines with a hash (#) anymore (as seen in git 1.8.5.2).
 
 ## 0.0.4
 
