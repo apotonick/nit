@@ -1,0 +1,40 @@
+#!/usr/bin/env ruby
+
+# client:
+# echo "bla and more" | netcat -U demo.socket
+
+require "nit/app"
+def run!(input)
+  foo = StringIO.new
+  $stdout = foo
+
+
+  require "nit/app"
+  Nit::App.start
+
+  $stdout.string
+end
+
+
+
+require 'socket'
+
+socket_file_name = './demo.socket'
+
+File.unlink socket_file_name
+server = UNIXServer.new socket_file_name
+
+loop do
+  client = server.accept
+  input = client.gets
+
+  argv = input.split(" ") # FIXME: this does not include +1 spaces.
+  ARGV = argv # FIXME: this sucks, it's the only interface for Thor. make input injectable for Nit::App
+  # FIXME: make App::run/start return outpub.
+
+  output = run!(input)
+
+  client.puts output
+  client.close
+end
+
