@@ -41,4 +41,8 @@ MiniTest::Spec.class_eval do
     no changes added to commit (use "git add" and/or "git commit -a")
     EOF
   end
+
+  def assert_equal(expected, asserted)
+    super(asserted, expected)
+  end
 end
