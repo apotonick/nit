@@ -12,8 +12,8 @@ class LinesTest < StatusTest
   end
 
   describe "#to_s" do
-    let (:output) { "1\n2" }
-    it { Nit::Lines.new(output).to_s.must_equal(output) }
+    let (:_output) { "1\n2" }
+    it { Nit::Lines.new(_output).to_s.must_equal(_output) }
   end
 
   describe "Line" do

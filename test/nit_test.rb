@@ -44,14 +44,16 @@ end
 class DynamicCommandTest < NitTest
   it "evaluates indexes and invokes git command with it" do
     # how to capture STDERR: https://www.ruby-forum.com/topic/1103519#982117
-    nit(" checkout e 2>&1").must_match "error: pathspec 'new.rb' did not match any file(s) known to git."
+    assert_equal nit(" checkout e 2>&1"), "error: pathspec 'new.rb' did not match any file(s) known to git
+
+"
   end
 end
 
 class ArbitraryGitCommandsTest < NitTest
   it { nit(" diff b").must_match "a\/staged.rb" }
 
-  it { nit(" diff --raw b").must_equal ":100644 100644 e69de29... 0000000... M\tstaged.rb\n" }
+  it { nit(" diff --raw b").must_equal ":100644 100644 e69de29 0000000 M\tstaged.rb\n" }
 
   # commit:
   it "allows strings after -m" do # TODO: implement that for all commands?
@@ -67,7 +69,7 @@ class ArbitraryGitCommandsTest < NitTest
       `cd stage && git add stage/new_file`
     end
     puts output
-    output.must_match "] fixing it\n"
+    assert_equal output, "] fixing it\n"
   end
 
 
